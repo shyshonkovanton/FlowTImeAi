@@ -28,14 +28,14 @@ const articleSchema = {
   <main id="main">
     <article class="article-page" id="top">
       <div class="container-xl">
-        <nav aria-label="Okruszki"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">Strona główna</a></li><li class="breadcrumb-item"><a href="/blog/">Blog</a></li><li class="breadcrumb-item active" aria-current="page">Jak planować tydzień</li></ol></nav>
+        <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">Strona główna</a></li><li class="breadcrumb-item"><a href="/blog/">Blog</a></li><li class="breadcrumb-item active" aria-current="page">Jak planować tydzień</li></ol></nav>
         <header class="article-header"><span class="badge blog-category">{post.category}</span><h1>{post.title}</h1><div class="article-byline"><time datetime={post.datetime}>{post.date}</time><span>•</span><span>Autor: Maja Wrona</span><span>•</span><span>{post.readingTime}</span></div></header>
         <figure class="article-hero"><img src={post.image} width="720" height="430" fetchpriority="high" decoding="async" alt={post.imageAlt} /><figcaption>Plan tygodnia jest użyteczny wtedy, gdy pokazuje priorytety i zostawia oddech.</figcaption></figure>
         <div class="row justify-content-center"><div class="col-xl-8">
           <p class="article-lead">Dobrze zaplanowany tydzień nie jest napiętym harmonogramem, lecz prostą odpowiedzią na pytanie: na czym chcę się skupić? Kilka świadomych bloków czasu pozwala zrobić więcej bez wrażenia, że kalendarz zarządza Tobą.</p>
           <h2>Zacznij od kierunku, nie od godzin</h2>
           <p>Zanim wpiszesz pierwsze spotkanie, wybierz dwa lub trzy rezultaty, które mają znaczenie pod koniec tygodnia. Mogą dotyczyć pracy, nauki albo odpoczynku. Dzięki temu kalendarz staje się narzędziem decyzji, a nie tylko rejestrem zajętości.</p>
-          <blockquote class="article-quote">„Najlepszy plan tygodnia nie próbuje przewidzieć wszystkiego. Pomaga łatwiej wybrać, co odpuścić.”</blockquote>
+          <blockquote class="blockquote article-quote">„Najlepszy plan tygodnia nie próbuje przewidzieć wszystkiego. Pomaga łatwiej wybrać, co odpuścić.”</blockquote>
           <h2>Trzy bloki, które warto wpisać jako pierwsze</h2>
           <ul class="article-list"><li><strong>Czas skupienia:</strong> jedna konkretna rzecz bez powiadomień i bez wielozadaniowości.</li><li><strong>Spotkania:</strong> łącz je w grupy, aby uniknąć ciągłego przełączania uwagi.</li><li><strong>Margines:</strong> zostaw wolne okno na zmiany, drogę i krótką regenerację.</li></ul>
           <figure class="article-figure"><img src="/assets/blog-ai.svg" width="720" height="430" loading="lazy" decoding="async" alt="Asystent AI proponujący wolny blok czasu w kalendarzu" /><figcaption>AI może zaproponować wolne okno, ale to Ty określasz, co jest warte Twojej energii.</figcaption></figure>
