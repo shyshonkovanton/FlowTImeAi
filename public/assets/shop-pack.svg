@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" role="img" aria-labelledby="title desc">
+  <title id="title">Pakiet szablonów i planów FlowTImeAi</title><desc id="desc">Ilustracja modułów kalendarza, kart planowania i asystenta AI.</desc>
+  <rect width="720" height="430" rx="36" fill="#f6f8fc"/><circle cx="620" cy="88" r="118" fill="#eaf3ff"/><circle cx="104" cy="348" r="110" fill="#fff0ef"/>
+  <rect x="92" y="64" width="536" height="302" rx="26" fill="#fff" stroke="#e4e8f0" stroke-width="3"/>
+  <rect x="128" y="102" width="144" height="226" rx="18" fill="#f8fafd" stroke="#e8ecf4" stroke-width="2"/>
+  <rect x="148" y="126" width="84" height="14" rx="7" fill="#007aff"/><rect x="148" y="156" width="104" height="10" rx="5" fill="#d9e2ef"/><rect x="148" y="176" width="92" height="10" rx="5" fill="#e5ebf5"/>
+  <rect x="148" y="214" width="104" height="44" rx="12" fill="#eaf3ff"/><rect x="148" y="268" width="104" height="40" rx="12" fill="#fff0ef"/>
+  <rect x="296" y="102" width="296" height="104" rx="18" fill="#fff8f7" stroke="#f5dedc" stroke-width="2"/>
+  <text x="322" y="142" fill="#1d1d1f" font-family="Arial, sans-serif" font-size="20" font-weight="700">FlowTImeAi Pro</text>
+  <text x="322" y="168" fill="#6e6e73" font-family="Arial, sans-serif" font-size="14">Szablony rytmu tygodnia + asystent AI</text>
+  <circle cx="548" cy="154" r="22" fill="#ff3b30"/><path d="M540 154l6 6 12-12" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="296" y="224" width="140" height="104" rx="18" fill="#eef8f4" stroke="#d5ede3" stroke-width="2"/>
+  <text x="318" y="266" fill="#258362" font-family="Arial, sans-serif" font-size="16" font-weight="700">Równowaga</text>
+  <text x="318" y="290" fill="#588f79" font-family="Arial, sans-serif" font-size="13">Bloki regeneracji</text>
+  <rect x="452" y="224" width="140" height="104" rx="18" fill="#f2f6ff" stroke="#dce6fb" stroke-width="2"/>
+  <text x="474" y="266" fill="#007aff" font-family="Arial, sans-serif" font-size="16" font-weight="700">Zespoły</text>
+  <text x="474" y="290" fill="#54708e" font-family="Arial, sans-serif" font-size="13">Spokojne spotkania</text>
+</svg>

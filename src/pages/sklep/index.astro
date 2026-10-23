@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { products } from "../../data/products";
+
+const title = "Sklep FlowTImeAi — pakiety kalendarza, szablony i kursy";
+const description = "Moduł prezentacji produktów FlowTImeAi: subskrypcje inteligentnego kalendarza, cyfrowe szablony tygodnia oraz warsztat planowania z AI.";
+---
+
+<BaseLayout {title} {description} canonicalPath="/sklep/" ogImage="/assets/shop-pack.svg">
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header active="shop" />
+  <main id="main">
+    <section class="blog-hero shop-hero" id="top">
+      <div class="container-xl">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Moduł sprzedażowy FlowTImeAi</span>
+        <h1>Narzędzia, które porządkują <span>Twój tydzień.</span></h1>
+        <p>Wybierz pakiet dopasowany do swojego rytmu pracy i odpoczynku — od indywidualnego kalendarza z AI po gotowe szablony tygodniowe i pakiety zespołowe.</p>
+      </div>
+    </section>
+
+    <section class="shop-catalog section" aria-label="Katalog produktów FlowTImeAi">
+      <div class="container-xl">
+        <div class="row gy-5 gx-0 gx-lg-5">
+          <div class="col-lg-8">
+            <div class="blog-section-heading d-flex flex-wrap justify-content-between align-items-end gap-3">
+              <div>
+                <h2>Dostępne pakiety i produkty cyfrowe</h2>
+                <p>4 propozycje w katalogu demonstracyjnym projektu semestralnego.</p>
+              </div>
+              <span class="badge shop-demo-badge">Prezentacja poglądowa (bez płatności online)</span>
+            </div>
+
+            <div class="row g-4" id="shopGrid">
+              {products.map((product) => (
+                <div class="col-md-6 shop-item-col" data-category={product.category}>
+                  <article class="card blog-card shop-card h-100">
+                    <img class="blog-card-image" src={product.image} width="720" height="430" loading="lazy" decoding="async" alt={product.imageAlt} />
+                    <div class="card-body d-flex flex-column">
+                      <div class="blog-meta">
+                        <span class="badge blog-category">{product.category}</span>
+                        <span class="shop-badge-accent">{product.badge}</span>
+                      </div>
+                      <h3 class="blog-card-title">{product.name}</h3>
+                      <p class="blog-card-text">{product.shortDescription}</p>
+                      <div class="shop-price-row mt-auto">
+                        <div>
+                          <strong class="shop-price">{product.price}</strong>
+                          <small class="d-block text-muted">{product.billingNote}</small>
+                        </div>
+                        <a class="btn btn-outline-primary shop-detail-btn" href={`/sklep/${product.slug}/`}>Szczegóły <span aria-hidden="true">→</span></a>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <aside class="col-lg-4 blog-sidebar" aria-label="Pomoc w wyborze pakietu">
+            <div class="blog-side-card">
+              <h2 class="blog-side-title">Szukaj w ofercie</h2>
+              <form class="shop-search" action="/sklep/" method="get">
+                <label class="visually-hidden" for="shop-search-input">Szukaj produktu</label>
+                <input class="form-control" id="shop-search-input" name="q" type="search" placeholder="Np. szablony, kurs, zespół" />
+                <button class="btn btn-primary" type="submit" aria-label="Szukaj w sklepie"><span aria-hidden="true">⌕</span> Szukaj</button>
+              </form>
+            </div>
+
+            <div class="blog-side-card">
+              <h2 class="blog-side-title">Kategorie produktów</h2>
+              <ul class="blog-category-list">
+                <li><a href="/sklep/">Wszystkie produkty <span class="badge">{products.length}</span></a></li>
+                {products.map((p) => (
+                  <li><a href={`/sklep/${p.slug}/`}>{p.category} <span class="badge">1</span></a></li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="blog-side-card">
+              <h2 class="blog-side-title">Jak działa zamówienie?</h2>
+              <p class="shop-side-note">Prezentowany moduł sklepu pełni funkcję makiety projektowej w ramach przedmiotu Responsive Web Design. Na karcie każdego produktu możesz wysłać demonstracyjne zgłoszenie zainteresowania lub przejść do formularza kontaktowego.</p>
+              <a class="btn btn-primary w-100 mt-2" href="/#kontakt">Zadaj pytanie o ofertę <span aria-hidden="true">→</span></a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
