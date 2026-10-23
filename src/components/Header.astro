@@ -1,0 +1,25 @@
+---
+interface Props { active?: "home" | "blog"; }
+const { active } = Astro.props;
+---
+
+<header class="site-header">
+  <nav class="navbar navbar-expand-lg" aria-label="Nawigacja główna">
+    <div class="container-xl">
+      <a class="navbar-brand brand" href="/" aria-label="FlowTImeAi — strona główna">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="3" y="5" width="26" height="24" rx="7" fill="currentColor"/><path d="M3 12h26" stroke="white" stroke-width="2"/><path d="M10 3v5M22 3v5" stroke="white" stroke-width="2.4" stroke-linecap="round"/><circle cx="11" cy="19" r="2" fill="white"/><circle cx="18" cy="19" r="2" fill="white"/><circle cx="11" cy="25" r="2" fill="white"/></svg></span>
+        <span>Flow<span class="brand-accent">TIme</span><span class="brand-ai">Ai</span></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Otwórz menu"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto my-3 my-lg-0">
+          <li class="nav-item"><a class:list={["nav-link", { active: active === "home" }]} href="/#features">Funkcje</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#how-it-works">Jak to działa</a></li>
+          <li class="nav-item"><a class:list={["nav-link", { active: active === "blog" }]} href="/blog/">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#faq">Pytania</a></li>
+        </ul>
+        <a class="btn btn-primary btn-nav" href="/#early-access">Wypróbuj za darmo <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </nav>
+</header>

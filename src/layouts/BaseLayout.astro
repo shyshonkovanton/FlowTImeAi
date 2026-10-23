@@ -1,0 +1,65 @@
+---
+import "../styles/bootstrap.scss";
+import "../../styles.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  ogType?: "website" | "article";
+  ogImage?: string;
+  structuredData?: Record<string, unknown>;
+}
+
+const {
+  title = "FlowTImeAi — kalendarz, który pomaga żyć we własnym rytmie",
+  description = "FlowTImeAi łączy spotkania, zadania i czas dla siebie w jednym inteligentnym kalendarzu. Znajdź swój rytm i zrób miejsce na to, co ważne.",
+  canonicalPath = "/",
+  ogType = "website",
+  ogImage = "/assets/calendar-preview.svg",
+  structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "FlowTImeAi",
+  applicationCategory: "ProductivityApplication",
+  operatingSystem: "Web",
+  inLanguage: "pl",
+  description: "Inteligentny kalendarz na spotkania, zadania i czas dla siebie."
+  }
+} = Astro.props;
+
+const siteUrl = "https://shyshonkovanton.github.io/FlowTImeAi";
+const canonicalUrl = `${siteUrl}${canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`}`;
+const ogImageUrl = `${siteUrl}${ogImage.startsWith("/") ? ogImage : `/${ogImage}`}`;
+---
+
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f8fa" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)}></script>
+  </head>
+  <body>
+    <slot />
+    <script>
+      import "bootstrap/js/dist/collapse";
+      import "../../script.js";
+    </script>
+  </body>
+</html>

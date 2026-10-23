@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { posts } from "../../data/posts";
+
+const title = "Blog FlowTImeAi — planowanie, kalendarze i AI";
+const description = "Praktyczne teksty o spokojnym planowaniu czasu, produktywności, kalendarzach i roli AI w codziennym rytmie.";
+---
+
+<BaseLayout {title} {description} canonicalPath="/blog/" ogImage="/assets/blog-week.svg">
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header active="blog" />
+  <main id="main">
+    <section class="blog-hero" id="top">
+      <div class="container-xl"><span class="eyebrow"><span class="eyebrow-dot"></span> Blog FlowTImeAi</span><h1>Więcej spokoju w <span>Twoim kalendarzu.</span></h1><p>Notatki o planowaniu czasu, energii i inteligentnych narzędziach, które zostawiają przestrzeń na ważne sprawy.</p></div>
+    </section>
+
+    <section class="blog-archive section" aria-label="Archiwum publikacji">
+      <div class="container-xl">
+        <div class="row gy-5 gx-0 gx-lg-5">
+          <div class="col-lg-8">
+            <div class="blog-section-heading"><h2>Najnowsze publikacje</h2><p>6 artykułów o lepszym rytmie pracy i odpoczynku.</p></div>
+            <div class="row g-4">
+              {posts.map((post) => (
+                <div class="col-md-6">
+                  <article class="card blog-card h-100">
+                    <img class="blog-card-image" src={post.image} width="720" height="430" loading="lazy" decoding="async" alt={post.imageAlt} />
+                    <div class="card-body d-flex flex-column"><div class="blog-meta"><span class="badge blog-category">{post.category}</span><time datetime={post.datetime}>{post.date}</time></div><h3 class="blog-card-title">{post.title}</h3><p class="blog-card-text">{post.description}</p><a class="blog-read-link mt-auto" href="/blog/single/">Czytaj dalej <span aria-hidden="true">→</span></a></div>
+                  </article>
+                </div>
+              ))}
+            </div>
+            <nav class="mt-5" aria-label="Strony archiwum bloga"><ul class="pagination justify-content-center"><li class="page-item disabled"><span class="page-link" aria-label="Poprzednia strona">←</span></li><li class="page-item active" aria-current="page"><span class="page-link">1</span></li><li class="page-item"><a class="page-link" href="/blog/">2</a></li><li class="page-item"><a class="page-link" href="/blog/" aria-label="Następna strona">→</a></li></ul></nav>
+          </div>
+          <aside class="col-lg-4 blog-sidebar" aria-label="Narzędzia bloga">
+            <div class="blog-side-card"><h2 class="blog-side-title">Szukaj w blogu</h2><form class="blog-search" action="/blog/" method="get"><label class="visually-hidden" for="blog-search">Szukaj artykułów</label><input class="form-control" id="blog-search" name="q" type="search" placeholder="Np. plan tygodnia" /><button class="btn btn-primary" type="submit">Szukaj</button></form></div>
+            <div class="blog-side-card"><h2 class="blog-side-title">Kategorie</h2><ul class="blog-category-list"><li><a href="/blog/">Planowanie <span class="badge">1</span></a></li><li><a href="/blog/">AI i produktywność <span class="badge">1</span></a></li><li><a href="/blog/">Równowaga <span class="badge">1</span></a></li><li><a href="/blog/">Spotkania <span class="badge">1</span></a></li><li><a href="/blog/">Nawyki <span class="badge">1</span></a></li><li><a href="/blog/">Skupienie <span class="badge">1</span></a></li></ul></div>
+            <div class="blog-side-card"><h2 class="blog-side-title">Polecamy</h2><div class="recommended-list">{posts.slice(1, 4).map((post) => <a class="recommended-post" href="/blog/single/"><img src={post.image} width="120" height="72" loading="lazy" decoding="async" alt={post.imageAlt} /><span><strong>{post.title}</strong><small>{post.readingTime}</small></span></a>)}</div></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

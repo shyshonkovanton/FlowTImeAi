@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" role="img" aria-labelledby="title desc">
+  <title id="title">Asystent AI układający kalendarz</title><desc id="desc">Ilustracja gwiazdy AI i kart kalendarza.</desc>
+  <rect width="720" height="430" rx="36" fill="#f5f8ff"/><circle cx="116" cy="93" r="113" fill="#e5efff"/><rect x="160" y="69" width="398" height="294" rx="26" fill="#fff" stroke="#e3e9f5" stroke-width="3"/>
+  <rect x="192" y="112" width="194" height="22" rx="11" fill="#eef3fb"/><rect x="192" y="153" width="316" height="15" rx="7.5" fill="#f1f4f8"/><rect x="192" y="185" width="280" height="15" rx="7.5" fill="#f1f4f8"/>
+  <rect x="192" y="230" width="158" height="88" rx="15" fill="#eaf3ff"/><rect x="365" y="230" width="143" height="88" rx="15" fill="#fff0ef"/>
+  <path d="M573 92l12 31 31 12-31 12-12 31-12-31-31-12 31-12z" fill="#007aff"/><path d="M119 272l8 20 20 8-20 8-8 20-8-20-20-8 20-8z" fill="#ff3b30"/>
+  <circle cx="628" cy="296" r="42" fill="#1d1d1f"/><path d="M628 269v54M601 296h54" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+</svg>

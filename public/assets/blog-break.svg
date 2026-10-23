@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" role="img" aria-labelledby="title desc">
+  <title id="title">Przerwa wpisana w kalendarz</title><desc id="desc">Filiżanka kawy obok spokojnego bloku czasu w kalendarzu.</desc>
+  <rect width="720" height="430" rx="36" fill="#fff8f5"/><circle cx="616" cy="92" r="125" fill="#fff0e8"/><rect x="102" y="58" width="514" height="314" rx="27" fill="#fff" stroke="#eee7e4" stroke-width="3"/>
+  <text x="143" y="115" fill="#1d1d1f" font-family="Arial, sans-serif" font-size="23" font-weight="700">Czas dla siebie</text><rect x="143" y="145" width="223" height="139" rx="18" fill="#eaf7f1"/><text x="171" y="193" fill="#258362" font-family="Arial, sans-serif" font-size="17" font-weight="700">Przerwa</text><text x="171" y="222" fill="#588f79" font-family="Arial, sans-serif" font-size="15">12:30 · 45 min</text>
+  <path d="M453 185h72v79c0 23-16 38-36 38s-36-15-36-38z" fill="#ff3b30"/><path d="M525 203h26c21 0 21 42 0 42h-26" fill="none" stroke="#ff3b30" stroke-width="13"/><path d="M467 163c-6-20 18-25 8-45M494 163c-6-20 18-25 8-45" fill="none" stroke="#8d8d94" stroke-width="7" stroke-linecap="round"/>
+  <rect x="143" y="310" width="377" height="14" rx="7" fill="#f1eeec"/>
+</svg>

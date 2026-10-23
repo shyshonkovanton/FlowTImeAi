@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { posts } from "../../data/posts";
+
+const post = posts[0];
+const title = `${post.title} — Blog FlowTImeAi`;
+const description = "Praktyczny przewodnik FlowTImeAi: jak zaplanować spokojny tydzień, wybrać priorytety i zostawić margines na zmianę planów.";
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.title,
+  description,
+  image: "https://shyshonkovanton.github.io/FlowTImeAi/assets/blog-week.svg",
+  datePublished: post.datetime,
+  dateModified: post.datetime,
+  inLanguage: "pl",
+  author: { "@type": "Person", name: "Maja Wrona" },
+  publisher: { "@type": "Organization", name: "FlowTImeAi" },
+  mainEntityOfPage: "https://shyshonkovanton.github.io/FlowTImeAi/blog/single/"
+};
+---
+
+<BaseLayout {title} {description} canonicalPath="/blog/single/" ogType="article" ogImage={post.image} structuredData={articleSchema}>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header active="blog" />
+  <main id="main">
+    <article class="article-page" id="top">
+      <div class="container-xl">
+        <nav aria-label="Okruszki"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">Strona główna</a></li><li class="breadcrumb-item"><a href="/blog/">Blog</a></li><li class="breadcrumb-item active" aria-current="page">Jak planować tydzień</li></ol></nav>
+        <header class="article-header"><span class="badge blog-category">{post.category}</span><h1>{post.title}</h1><div class="article-byline"><time datetime={post.datetime}>{post.date}</time><span>•</span><span>Autor: Maja Wrona</span><span>•</span><span>{post.readingTime}</span></div></header>
+        <figure class="article-hero"><img src={post.image} width="720" height="430" fetchpriority="high" decoding="async" alt={post.imageAlt} /><figcaption>Plan tygodnia jest użyteczny wtedy, gdy pokazuje priorytety i zostawia oddech.</figcaption></figure>
+        <div class="row justify-content-center"><div class="col-xl-8">
+          <p class="article-lead">Dobrze zaplanowany tydzień nie jest napiętym harmonogramem, lecz prostą odpowiedzią na pytanie: na czym chcę się skupić? Kilka świadomych bloków czasu pozwala zrobić więcej bez wrażenia, że kalendarz zarządza Tobą.</p>
+          <h2>Zacznij od kierunku, nie od godzin</h2>
+          <p>Zanim wpiszesz pierwsze spotkanie, wybierz dwa lub trzy rezultaty, które mają znaczenie pod koniec tygodnia. Mogą dotyczyć pracy, nauki albo odpoczynku. Dzięki temu kalendarz staje się narzędziem decyzji, a nie tylko rejestrem zajętości.</p>
+          <blockquote class="article-quote">„Najlepszy plan tygodnia nie próbuje przewidzieć wszystkiego. Pomaga łatwiej wybrać, co odpuścić.”</blockquote>
+          <h2>Trzy bloki, które warto wpisać jako pierwsze</h2>
+          <ul class="article-list"><li><strong>Czas skupienia:</strong> jedna konkretna rzecz bez powiadomień i bez wielozadaniowości.</li><li><strong>Spotkania:</strong> łącz je w grupy, aby uniknąć ciągłego przełączania uwagi.</li><li><strong>Margines:</strong> zostaw wolne okno na zmiany, drogę i krótką regenerację.</li></ul>
+          <figure class="article-figure"><img src="/assets/blog-ai.svg" width="720" height="430" loading="lazy" decoding="async" alt="Asystent AI proponujący wolny blok czasu w kalendarzu" /><figcaption>AI może zaproponować wolne okno, ale to Ty określasz, co jest warte Twojej energii.</figcaption></figure>
+          <h3>Krótki przegląd na piątek</h3>
+          <p>Pod koniec tygodnia sprawdź, co zadziałało. Nie oceniaj dnia po liczbie odhaczonych punktów: zauważ również, czy zostawiłeś sobie czas na odpoczynek i czy plan był możliwy do wykonania.</p>
+          <div class="table-responsive"><table class="table article-table"><caption>Prosty rytuał planowania tygodnia</caption><thead><tr><th scope="col">Kiedy</th><th scope="col">Pytanie</th><th scope="col">Efekt</th></tr></thead><tbody><tr><td>Poniedziałek</td><td>Co jest najważniejsze?</td><td>2–3 priorytety</td></tr><tr><td>Środa</td><td>Co wymaga zmiany?</td><td>Realistyczny plan</td></tr><tr><td>Piątek</td><td>Co chcę powtórzyć?</td><td>Lepszy następny tydzień</td></tr></tbody></table></div>
+          <div class="article-tags" aria-label="Tagi artykułu"><span>Tagi:</span><a href="/blog/">planowanie tygodnia</a><a href="/blog/">kalendarz</a><a href="/blog/">produktywność</a></div>
+          <section class="author-card" aria-labelledby="author-title"><div class="author-avatar" aria-hidden="true">MW</div><div><h2 id="author-title">Maja Wrona</h2><p>Projektantka prostych systemów pracy i autorka tekstów FlowTImeAi. Pisze o tym, jak planować ambitnie, ale bez rezygnowania z odpoczynku.</p></div></section>
+          <section class="article-share" aria-labelledby="share-title"><h2 id="share-title">Przekaż dalej</h2><div><a class="btn btn-outline-primary" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fshyshonkovanton.github.io%2FFlowTImeAi%2Fblog%2Fsingle%2F" target="_blank" rel="noopener noreferrer">LinkedIn</a><a class="btn btn-outline-primary" href="mailto:?subject=Jak%20planowa%C4%87%20tydzie%C5%84&body=https%3A%2F%2Fshyshonkovanton.github.io%2FFlowTImeAi%2Fblog%2Fsingle%2F">E-mail</a></div></section>
+          <nav class="article-neighbors" aria-label="Sąsiednie artykuły"><a href="/blog/single/"><small>← Poprzedni artykuł</small><strong>Realistyczne bloki skupienia</strong></a><a href="/blog/single/"><small>Następny artykuł →</small><strong>AI w kalendarzu bez presji</strong></a></nav>
+          <section class="comments-section" aria-labelledby="comments-title"><h2 id="comments-title">Komentarze <span>(2)</span></h2><article class="comment"><div class="comment-avatar" aria-hidden="true">AK</div><div><h3>Anna Kowalska</h3><time datetime="2026-03-13">13 marca 2026</time><p>Najbardziej pomaga mi wpisanie marginesu przed ważnym spotkaniem. Dzięki temu nie zaczynam kolejnych zadań w pośpiechu.</p></div></article><article class="comment"><div class="comment-avatar comment-avatar-blue" aria-hidden="true">PK</div><div><h3>Piotr Król</h3><time datetime="2026-03-14">14 marca 2026</time><p>Dobry pomysł z przeglądem w środę. Przestałem traktować zmianę planu jako porażkę.</p></div></article></section>
+          <section class="comment-form-section" aria-labelledby="comment-form-title"><h2 id="comment-form-title">Dodaj komentarz</h2><form class="comment-form" action="/blog/single/" method="post"><div class="row g-3"><div class="col-md-6"><label for="comment-name">Imię</label><input class="form-control" id="comment-name" name="name" autocomplete="name" required /></div><div class="col-md-6"><label for="comment-email">Adres e-mail</label><input class="form-control" id="comment-email" name="email" type="email" autocomplete="email" required /></div><div class="col-12"><label for="comment-message">Komentarz</label><textarea class="form-control" id="comment-message" name="message" rows="5" required></textarea></div></div><div class="comment-form-actions"><button class="btn btn-primary" type="submit">Opublikuj komentarz</button><span id="commentStatus" role="status" aria-live="polite"></span></div></form></section>
+        </div></div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
