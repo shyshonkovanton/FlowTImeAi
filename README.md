@@ -1,16 +1,16 @@
 # FlowTImeAi
 
-Первый вариант одностраничного адаптивного сайта для учебного проекта Responsive Web Design.
+Pierwsza wersja responsywnej strony typu one page w ramach projektu Responsive Web Design.
 
-## Запуск
+## Uruchomienie
 
-Откройте `index.html` в браузере или запустите любой локальный статический сервер из корня проекта. Bootstrap 5.3.8 и шрифт Inter загружаются с CDN, поэтому для полного оформления требуется интернет.
+Otwórz plik `index.html` w przeglądarce lub uruchom lokalny serwer statyczny w katalogu projektu. Bootstrap 5.3.8 i font Inter są ładowane z CDN, więc pełne formatowanie wymaga połączenia z internetem.
 
-## Состав
+## Pliki projektu
 
-- `index.html` — семантическая структура страницы, метаданные, Open Graph и Schema.org.
-- `styles.css` — фирменное оформление и мобильные/планшетные/широкие адаптивные правила.
-- `script.js` — демонстрационное поведение формы раннего доступа.
-- `assets/` — локальные SVG-иллюстрации календаря и значок сайта.
+- `index.html` — semantyczna struktura strony, metadane, Open Graph i Schema.org.
+- `styles.css` — identyfikacja wizualna i style responsywne dla telefonów, tabletów i dużych ekranów.
+- `script.js` — demonstracyjna obsługa formularza wczesnego dostępu.
+- `assets/` — lokalne ilustracje kalendarza i ikona strony w formacie SVG.
 
-Форма сейчас не отправляет данные на сервер. Она показывает подтверждение в браузере, чтобы продемонстрировать пользовательский сценарий.
+Formularz nie wysyła jeszcze danych na serwer. Wyświetla potwierdzenie w przeglądarce, aby zaprezentować przykładowy przebieg.
