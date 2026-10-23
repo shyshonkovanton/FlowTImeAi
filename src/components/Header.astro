@@ -1,5 +1,5 @@
 ---
-interface Props { active?: "home" | "blog"; }
+interface Props { active?: "home" | "blog" | "shop"; }
 const { active } = Astro.props;
 ---
 
@@ -13,12 +13,14 @@ const { active } = Astro.props;
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Otwórz menu"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav mx-auto my-3 my-lg-0">
-          <li class="nav-item"><a class:list={["nav-link", { active: active === "home" }]} href="/#features">Funkcje</a></li>
-          <li class="nav-item"><a class="nav-link" href="/#how-it-works">Jak to działa</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#o-nas">O nas</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#oferta">Oferta</a></li>
           <li class="nav-item"><a class:list={["nav-link", { active: active === "blog" }]} href="/blog/">Blog</a></li>
+          <li class="nav-item"><a class:list={["nav-link", { active: active === "shop" }]} href="/sklep/">Sklep</a></li>
           <li class="nav-item"><a class="nav-link" href="/#faq">Pytania</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#kontakt">Kontakt</a></li>
         </ul>
-        <a class="btn btn-primary btn-nav" href="/#early-access">Wypróbuj za darmo <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-primary btn-nav" href="/#kontakt">Zapytaj o ofertę <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </nav>

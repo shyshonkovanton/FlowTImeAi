@@ -124,3 +124,63 @@
   .note-suggestion{left:0}
 }
 
+/* ==========================================================================
+   Etap 1 (uzupełnienie sekcji O nas, Kontakt, Stopka) oraz Etap 3 (Moduł Sklepu)
+   ========================================================================== */
+.about-visual-card{padding:18px;background:#f8f9fb;border:1px solid #e9ecf1;border-radius:24px;box-shadow:0 12px 32px rgba(25,32,45,.045)}
+.about-visual-card img{display:block;width:100%;height:auto;border:1px solid #e7eaf0}
+.about-visual-caption{margin-top:14px;padding:4px 6px}
+.about-visual-caption strong{display:block;font-size:14px;font-weight:650;color:var(--ink)}
+.about-visual-caption span{display:block;margin-top:3px;font-size:12px;color:var(--muted)}
+
+.contact-card-grid{grid-template-columns:1fr minmax(320px,480px);align-items:start}
+.contact-details-list{margin:22px 0 0;padding:0;display:grid;gap:14px}
+.contact-details-list>div{padding:12px 16px;background:rgba(255,255,255,.82);border:1px solid #e6e9ef;border-radius:14px}
+.contact-details-list dt{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#55565b;margin-bottom:3px}
+.contact-details-list dd{margin:0;font-size:13px;font-weight:500;color:var(--ink)}
+.contact-details-list a{display:inline-flex;align-items:center;min-height:44px;color:var(--blue);text-decoration:none;font-weight:600}
+.contact-details-list a:hover{text-decoration:underline}
+
+.contact-form-box{padding:24px;background:#fff;border:1px solid #e6e9ef;border-radius:20px;box-shadow:0 10px 28px rgba(25,32,45,.04)}
+.contact-form-box label{display:block;margin:0 0 6px;color:#4a4b52;font-size:12px;font-weight:600}
+.contact-form-box .form-control,.contact-form-box .form-select{min-height:46px;border:1px solid #d5d7de;border-radius:12px;padding:10px 14px;font-size:13px;color:var(--ink);background-color:#fff;box-shadow:none}
+.contact-form-box textarea.form-control{min-height:104px}
+.contact-form-box .form-control:focus,.contact-form-box .form-select:focus{border-color:#8abfff;box-shadow:0 0 0 3px rgba(0,122,255,.14)}
+.contact-form-box .btn{min-height:48px;font-size:13px}
+.contact-form-box .form-meta{margin-top:12px;font-size:11px;color:#62636a;flex-direction:column;gap:4px}
+
+.footer-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.footer-nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;color:#55565b;text-decoration:none;font-size:13px;font-weight:500}
+.footer-nav a:hover{background:#f5f7fb;color:var(--blue)}
+
+.shop-catalog{padding:72px 0 88px;background:#fafbfc}
+.shop-demo-badge{padding:7px 12px;border-radius:999px;background:#fff0ef;color:#c92a22;font-size:11px;font-weight:600}
+.shop-badge-accent{color:#55565b;font-size:11px;font-weight:600}
+.shop-price-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;border-top:1px solid #eff0f3}
+.shop-price{font-size:22px;font-weight:750;letter-spacing:-.04em;color:var(--ink)}
+.shop-detail-btn{min-height:44px;padding:0 18px;font-size:13px;--bs-btn-color:var(--blue);--bs-btn-border-color:#cfe2ff;--bs-btn-hover-bg:#edf5ff;--bs-btn-hover-color:var(--blue);--bs-btn-hover-border-color:#b6d4fe}
+.shop-search{display:flex;gap:8px;flex-wrap:wrap}
+.shop-search .form-control{flex:1 1 170px;min-height:44px;border:1px solid #dedfe3;border-radius:999px;padding:0 16px;font-size:13px;box-shadow:none}
+.shop-search .form-control:focus{border-color:#8abfff;box-shadow:0 0 0 3px rgba(0,122,255,.12)}
+.shop-search .btn{min-height:44px;min-width:44px;padding:0 18px;font-size:12px}
+.shop-side-note{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:12px}
+
+.product-title{margin:8px 0 16px;font-size:clamp(30px,4.2vw,46px)}
+.product-price-box{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:22px 0 26px;padding:18px 22px;background:#f7f8fb;border:1px solid #e6e9ef;border-radius:18px}
+.product-price-label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#62636a}
+.product-price-value{font-size:28px;font-weight:800;letter-spacing:-.04em;color:var(--ink)}
+.product-order-form{margin-top:24px;padding:20px;background:#fff;border:1px solid #e7e9ef;border-radius:18px}
+.product-order-form label{display:block;margin-bottom:6px;font-size:12px;font-weight:600;color:#4a4b52}
+.product-order-form .form-select{min-height:46px;border-radius:12px;border:1px solid #d5d7de;font-size:13px}
+.product-order-form .btn{min-height:46px;font-size:13px}
+.product-order-status{margin:10px 0 0;color:#218a5e;font-size:12.5px;font-weight:600}
+.product-spec-section,.related-products-section{border-top:1px solid var(--line)}
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+@media(max-width:991.98px){
+  .contact-card-grid{grid-template-columns:1fr}
+  .contact-form-box{max-width:100%}
+}
+
+

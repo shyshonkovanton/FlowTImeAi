@@ -4,8 +4,14 @@ const formStatus = document.querySelector('#formStatus');
 if (signupForm && formStatus) {
   signupForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    const email = new FormData(signupForm).get('email');
-    formStatus.textContent = `Dziękujemy! Adres ${email} został zapisany w wersji demonstracyjnej.`;
+    const formData = new FormData(signupForm);
+    const fullName = formData.get('fullName');
+    const email = formData.get('email');
+    if (fullName) {
+      formStatus.textContent = `Dziękujemy, ${fullName}! Zapytanie (${email}) zostało zapisane w wersji demonstracyjnej.`;
+    } else {
+      formStatus.textContent = `Dziękujemy! Adres ${email} został zapisany w wersji demonstracyjnej.`;
+    }
     signupForm.reset();
   });
 }
@@ -47,5 +53,43 @@ if (blogSearchForm && blogSearchInput) {
     filterPosts(blogSearchInput.value);
   });
 }
+
+const shopSearchForm = document.querySelector('.shop-search');
+const shopSearchInput = document.querySelector('#shop-search-input');
+
+if (shopSearchForm && shopSearchInput) {
+  const filterProducts = (query) => {
+    const normalized = query.trim().toLowerCase();
+    const cols = document.querySelectorAll('.shop-catalog .shop-item-col');
+    cols.forEach((col) => {
+      const text = col.textContent.toLowerCase();
+      col.hidden = normalized.length > 0 && !text.includes(normalized);
+    });
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const initialQuery = params.get('q');
+  if (initialQuery) {
+    shopSearchInput.value = initialQuery;
+    filterProducts(initialQuery);
+  }
+
+  shopSearchForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    filterProducts(shopSearchInput.value);
+  });
+}
+
+const productOrderForm = document.querySelector('#productOrderForm');
+const productOrderStatus = document.querySelector('#productOrderStatus');
+
+if (productOrderForm && productOrderStatus) {
+  productOrderForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const variant = new FormData(productOrderForm).get('variant');
+    productOrderStatus.textContent = `Wybrano wariant „${variant}” w trybie demonstracyjnym. Skontaktuj się z nami przez formularz na stronie głównej, aby omówić szczegóły.`;
+  });
+}
+
 
 
