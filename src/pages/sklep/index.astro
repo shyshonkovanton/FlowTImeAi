@@ -1,11 +1,19 @@
 ---
+import { url } from "../../lib/url";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
+import ProductCard from "../../components/ProductCard.astro";
 import { products } from "../../data/products";
+import { priceOf } from "../../lib/shop";
 
 const title = "Sklep FlowTImeAi — pakiety kalendarza, szablony i kursy";
-const description = "Moduł prezentacji produktów FlowTImeAi: subskrypcje inteligentnego kalendarza, cyfrowe szablony tygodnia oraz warsztat planowania z AI.";
+const description = "Katalog FlowTImeAi: subskrypcje inteligentnego kalendarza, cyfrowe szablony tygodnia i kursy planowania z AI. Filtruj po kategorii, cenie i formacie.";
+
+const categories = [...new Set(products.map((p) => p.category))];
+const formats = [...new Set(products.map((p) => p.format))];
+const maxPrice = Math.ceil(Math.max(...products.map(priceOf)) / 10) * 10;
+const countBy = (key: "category" | "format", value: string) => products.filter((p) => p[key] === value).length;
 ---
 
 <BaseLayout {title} {description} canonicalPath="/sklep/" ogImage="/assets/shop-pack.svg">
@@ -14,76 +22,105 @@ const description = "Moduł prezentacji produktów FlowTImeAi: subskrypcje intel
   <main id="main">
     <section class="blog-hero shop-hero" id="top">
       <div class="container-xl">
-        <span class="eyebrow"><span class="eyebrow-dot"></span> Moduł sprzedażowy FlowTImeAi</span>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sklep</li>
+          </ol>
+        </nav>
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Sklep FlowTImeAi</span>
         <h1>Narzędzia, które porządkują <span>Twój tydzień.</span></h1>
-        <p>Wybierz pakiet dopasowany do swojego rytmu pracy i odpoczynku — od indywidualnego kalendarza z AI po gotowe szablony tygodniowe i pakiety zespołowe.</p>
+        <p>Wybierz pakiet dopasowany do swojego rytmu pracy i odpoczynku — od indywidualnego kalendarza z AI po gotowe szablony i kursy.</p>
       </div>
     </section>
 
     <section class="shop-catalog section" aria-label="Katalog produktów FlowTImeAi">
       <div class="container-xl">
-        <div class="row gy-5 gx-0 gx-lg-5">
-          <div class="col-lg-8">
-            <div class="blog-section-heading d-flex flex-wrap justify-content-between align-items-end gap-3">
-              <div>
-                <h2>Dostępne pakiety i produkty cyfrowe</h2>
-                <p>4 propozycje w katalogu demonstracyjnym projektu semestralnego.</p>
+        <div class="row gy-4 gx-0 gx-lg-5">
+          <aside class="col-lg-3" aria-label="Filtry produktów">
+            <button class="btn btn-outline-primary w-100 d-lg-none filters-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#filtersPanel" aria-expanded="false" aria-controls="filtersPanel"><i class="bi bi-sliders" aria-hidden="true"></i> Filtry</button>
+            <div class="collapse d-lg-block" id="filtersPanel">
+              <form class="filters-form" id="shopFilters">
+                <fieldset class="filter-group">
+                  <legend>Kategoria</legend>
+                  {categories.map((category, i) => (
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="category" value={category} id={`cat-${i}`} />
+                      <label class="form-check-label" for={`cat-${i}`}>{category} <span class="filter-count">({countBy("category", category)})</span></label>
+                    </div>
+                  ))}
+                </fieldset>
+
+                <fieldset class="filter-group">
+                  <legend>Cena maksymalna</legend>
+                  <input class="form-range" type="range" id="priceRange" name="maxPrice" min="0" max={maxPrice} step="10" value={maxPrice} aria-describedby="priceRangeValue" />
+                  <output id="priceRangeValue" for="priceRange" class="filter-output">do {maxPrice} zł</output>
+                </fieldset>
+
+                <fieldset class="filter-group">
+                  <legend>Format</legend>
+                  {formats.map((format, i) => (
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="format" value={format} id={`fmt-${i}`} />
+                      <label class="form-check-label" for={`fmt-${i}`}>{format} <span class="filter-count">({countBy("format", format)})</span></label>
+                    </div>
+                  ))}
+                </fieldset>
+
+                <fieldset class="filter-group">
+                  <legend>Dostępność</legend>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="inStock" value="1" id="stock-only" />
+                    <label class="form-check-label" for="stock-only">Tylko dostępne</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="promo" value="1" id="promo-only" />
+                    <label class="form-check-label" for="promo-only">Tylko promocje</label>
+                  </div>
+                </fieldset>
+
+                <button class="btn btn-outline-primary w-100" type="reset" id="filtersReset">Resetuj filtry</button>
+              </form>
+            </div>
+          </aside>
+
+          <div class="col-lg-9">
+            <div class="shop-toolbar">
+              <p class="shop-count" id="shopCount" role="status" aria-live="polite">Znaleziono: {products.length} produktów</p>
+              <div class="shop-sort">
+                <label for="shopSort">Sortuj:</label>
+                <select class="form-select" id="shopSort">
+                  <option value="popularity" selected>Popularność</option>
+                  <option value="price-asc">Cena: rosnąco</option>
+                  <option value="price-desc">Cena: malejąco</option>
+                  <option value="name">Nazwa: A–Z</option>
+                </select>
               </div>
-              <span class="badge shop-demo-badge">Prezentacja poglądowa (bez płatności online)</span>
             </div>
 
             <div class="row g-4" id="shopGrid">
               {products.map((product) => (
-                <div class="col-md-6 shop-item-col" data-category={product.category}>
-                  <article class="card blog-card shop-card h-100">
-                    <img class="blog-card-image" src={product.image} width="720" height="430" loading="lazy" decoding="async" alt={product.imageAlt} />
-                    <div class="card-body d-flex flex-column">
-                      <div class="blog-meta">
-                        <span class="badge blog-category">{product.category}</span>
-                        <span class="shop-badge-accent">{product.badge}</span>
-                      </div>
-                      <h3 class="blog-card-title">{product.name}</h3>
-                      <p class="blog-card-text">{product.shortDescription}</p>
-                      <div class="shop-price-row mt-auto">
-                        <div>
-                          <strong class="shop-price">{product.price}</strong>
-                          <small class="d-block text-muted">{product.billingNote}</small>
-                        </div>
-                        <a class="btn btn-outline-primary shop-detail-btn" href={`/sklep/${product.slug}/`}>Szczegóły <span aria-hidden="true">→</span></a>
-                      </div>
-                    </div>
-                  </article>
+                <div
+                  class="col-md-6 col-xl-4 shop-item-col"
+                  data-category={product.category}
+                  data-format={product.format}
+                  data-price={product.priceValue}
+                  data-popularity={product.popularity}
+                  data-name={product.name}
+                  data-stock={product.inStock ? "1" : "0"}
+                  data-promo={product.oldPrice ? "1" : "0"}
+                >
+                  <ProductCard product={product} />
                 </div>
               ))}
             </div>
+
+            <p class="shop-empty" id="shopEmpty" hidden>Brak produktów spełniających wybrane kryteria. Zmień lub zresetuj filtry.</p>
+
+            <nav aria-label="Paginacja katalogu" id="shopPagination" class="shop-pagination" hidden>
+              <ul class="pagination justify-content-center"></ul>
+            </nav>
           </div>
-
-          <aside class="col-lg-4 blog-sidebar" aria-label="Pomoc w wyborze pakietu">
-            <div class="blog-side-card">
-              <h2 class="blog-side-title">Szukaj w ofercie</h2>
-              <form class="shop-search" action="/sklep/" method="get">
-                <label class="visually-hidden" for="shop-search-input">Szukaj produktu</label>
-                <input class="form-control" id="shop-search-input" name="q" type="search" placeholder="Np. szablony, kurs, zespół" />
-                <button class="btn btn-primary" type="submit" aria-label="Szukaj w sklepie"><span aria-hidden="true">⌕</span> Szukaj</button>
-              </form>
-            </div>
-
-            <div class="blog-side-card">
-              <h2 class="blog-side-title">Kategorie produktów</h2>
-              <ul class="blog-category-list">
-                <li><a href="/sklep/">Wszystkie produkty <span class="badge">{products.length}</span></a></li>
-                {products.map((p) => (
-                  <li><a href={`/sklep/${p.slug}/`}>{p.category} <span class="badge">1</span></a></li>
-                ))}
-              </ul>
-            </div>
-
-            <div class="blog-side-card">
-              <h2 class="blog-side-title">Jak działa zamówienie?</h2>
-              <p class="shop-side-note">Prezentowany moduł sklepu pełni funkcję makiety projektowej w ramach przedmiotu Responsive Web Design. Na karcie każdego produktu możesz wysłać demonstracyjne zgłoszenie zainteresowania lub przejść do formularza kontaktowego.</p>
-              <a class="btn btn-primary w-100 mt-2" href="/#kontakt">Zadaj pytanie o ofertę <span aria-hidden="true">→</span></a>
-            </div>
-          </aside>
         </div>
       </div>
     </section>

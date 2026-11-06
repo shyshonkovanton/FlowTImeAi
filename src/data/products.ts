@@ -15,7 +15,16 @@ export type ProductItem = {
   image: string;
   imageAlt: string;
   sku: string;
+  oldPrice?: string;
+  oldPriceValue?: number;
+  rating: number;
+  reviews: number;
+  popularity: number;
+  format: ProductFormat;
+  inStock: boolean;
 };
+
+export type ProductFormat = "Dostęp online" | "Plik do pobrania";
 
 export const products: ProductItem[] = [
   {
@@ -45,7 +54,12 @@ export const products: ProductItem[] = [
     ],
     image: "/assets/shop-pack.svg",
     imageAlt: "Ilustracja pakietu FlowTImeAi Personal z widokiem kalendarza i asystenta AI",
-    sku: "FTA-PERS-2026"
+    sku: "FTA-PERS-2026",
+    rating: 4.8,
+    reviews: 126,
+    popularity: 100,
+    format: "Dostęp online",
+    inStock: true
   },
   {
     id: "pakiet-szablonow-rytmu",
@@ -74,7 +88,14 @@ export const products: ProductItem[] = [
     ],
     image: "/assets/blog-week.svg",
     imageAlt: "Ilustracja zestawu szablonów tygodniowego kalendarza z kolorowymi blokami",
-    sku: "FTA-TMPL-2026"
+    sku: "FTA-TMPL-2026",
+    oldPrice: "79 zł",
+    oldPriceValue: 79,
+    rating: 4.7,
+    reviews: 84,
+    popularity: 80,
+    format: "Plik do pobrania",
+    inStock: true
   },
   {
     id: "warsztat-planowania-ai",
@@ -103,7 +124,12 @@ export const products: ProductItem[] = [
     ],
     image: "/assets/blog-ai.svg",
     imageAlt: "Ilustracja kursu online o planowaniu czasu z pomocą asystenta AI",
-    sku: "FTA-COURS-2026"
+    sku: "FTA-COURS-2026",
+    rating: 4.9,
+    reviews: 57,
+    popularity: 70,
+    format: "Dostęp online",
+    inStock: true
   },
   {
     id: "plan-zespolowy-flow",
@@ -132,6 +158,148 @@ export const products: ProductItem[] = [
     ],
     image: "/assets/blog-break.svg",
     imageAlt: "Ilustracja harmonijnego planu pracy zespołowej i przerw w kalendarzu",
-    sku: "FTA-TEAM-2026"
+    sku: "FTA-TEAM-2026",
+    rating: 4.6,
+    reviews: 31,
+    popularity: 60,
+    format: "Dostęp online",
+    inStock: true
+  },
+  {
+    id: "kalendarz-studenta",
+    slug: "kalendarz-studenta",
+    name: "Szablon „Kalendarz Studenta”",
+    category: "Cyfrowe szablony",
+    badge: "Dla studentów",
+    price: "39 zł",
+    priceValue: "39.00",
+    currency: "PLN",
+    billingNote: "płatność jednorazowa (oferta poglądowa)",
+    shortDescription:
+      "Semestralny układ zajęć, kolokwiów i terminów oddania prac z blokami na naukę i regenerację. Gotowy do importu do kalendarza.",
+    lead:
+      "Szablon przygotowany z myślą o rytmie semestru: pokazuje zajęcia, deadline’y i czas na naukę w jednym przejrzystym widoku, bez przeładowania.",
+    features: [
+      "Siatka semestru z kolorami dla przedmiotów",
+      "Bloki nauki przed kolokwiami i egzaminami",
+      "Lista kontrolna sesji egzaminacyjnej",
+      "Instrukcja importu do popularnych kalendarzy"
+    ],
+    deliverables: [
+      { item: "Szablon semestru (.ics)", format: "Plik cyfrowy", scope: "1 semestr" },
+      { item: "Arkusz planowania sesji", format: "PDF", scope: "Licencja indywidualna" },
+      { item: "Instrukcja importu", format: "PDF (6 stron)", scope: "Krok po kroku" }
+    ],
+    image: "/assets/blog-week.svg",
+    imageAlt: "Ilustracja szablonu semestralnego kalendarza studenta",
+    sku: "FTA-STUD-2026",
+    oldPrice: "49 zł",
+    oldPriceValue: 49,
+    rating: 4.5,
+    reviews: 42,
+    popularity: 90,
+    format: "Plik do pobrania",
+    inStock: true
+  },
+  {
+    id: "karty-przegladu-tygodnia",
+    slug: "karty-przegladu-tygodnia",
+    name: "Karty Przeglądu Tygodnia (PDF)",
+    category: "Cyfrowe szablony",
+    badge: "Do druku",
+    price: "29 zł",
+    priceValue: "29.00",
+    currency: "PLN",
+    billingNote: "płatność jednorazowa (oferta poglądowa)",
+    shortDescription:
+      "Zestaw kart do cotygodniowego podsumowania: co się udało, co przenieść i na czym skupić się dalej. Do druku lub wypełniania na ekranie.",
+    lead:
+      "Krótki rytuał piątkowego przeglądu w formie gotowych kart. Pomaga zamknąć tydzień i zacząć następny z jasnym kierunkiem.",
+    features: [
+      "10 kart przeglądu w układzie A4 i A5",
+      "Pytania pomocnicze do oceny energii i priorytetów",
+      "Wersja do wypełniania w czytniku PDF",
+      "Karta planowania następnego tygodnia"
+    ],
+    deliverables: [
+      { item: "Karty przeglądu tygodnia", format: "PDF (A4 / A5)", scope: "10 kart" },
+      { item: "Karta planowania tygodnia", format: "PDF", scope: "Wersja drukowana i ekranowa" }
+    ],
+    image: "/assets/blog-break.svg",
+    imageAlt: "Ilustracja kart cotygodniowego przeglądu planu",
+    sku: "FTA-CARD-2026",
+    rating: 4.4,
+    reviews: 19,
+    popularity: 40,
+    format: "Plik do pobrania",
+    inStock: true
+  },
+  {
+    id: "mini-kurs-skupienie",
+    slug: "mini-kurs-skupienie",
+    name: "Mini-kurs: Skupienie w 5 dni",
+    category: "Kurs online",
+    badge: "Edukacja",
+    price: "49 zł",
+    priceValue: "49.00",
+    currency: "PLN",
+    billingNote: "dostęp bezterminowy (oferta poglądowa)",
+    shortDescription:
+      "Pięć krótkich lekcji o ochronie uwagi, blokach pracy głębokiej i spokojnych przerwach. Jedno ćwiczenie dziennie.",
+    lead:
+      "Kompaktowy kurs na start: w pięć dni wprowadzasz do kalendarza bloki skupienia i sprawdzasz, które z nich działają w Twoim rytmie.",
+    features: [
+      "5 lekcji wideo po około 10 minut",
+      "Codzienne ćwiczenie wdrożeniowe",
+      "Karta oceny skupienia po tygodniu",
+      "Napisy w języku polskim"
+    ],
+    deliverables: [
+      { item: "Lekcje wideo z napisami PL", format: "Dostęp na platformie", scope: "5 lekcji" },
+      { item: "Karty ćwiczeń", format: "PDF", scope: "5 kart" }
+    ],
+    image: "/assets/blog-ai.svg",
+    imageAlt: "Ilustracja mini-kursu o skupieniu i planowaniu dnia",
+    sku: "FTA-MINI-2026",
+    oldPrice: "69 zł",
+    oldPriceValue: 69,
+    rating: 4.7,
+    reviews: 38,
+    popularity: 65,
+    format: "Dostęp online",
+    inStock: true
+  },
+  {
+    id: "edu-licencja-grupowa",
+    slug: "edu-licencja-grupowa",
+    name: "FlowTImeAi Edu — Licencja dla Grupy",
+    category: "Subskrypcja aplikacji",
+    badge: "Wkrótce",
+    price: "99 zł",
+    priceValue: "99.00",
+    currency: "PLN",
+    billingNote: "opłata semestralna za grupę (oferta poglądowa)",
+    shortDescription:
+      "Wspólny kalendarz terminów dla grupy studenckiej: zajęcia, projekty i deadline’y w jednym miejscu. Produkt w przygotowaniu.",
+    lead:
+      "Wariant dla grup studenckich i kół naukowych. Produkt jest w przygotowaniu — sprzedaż ruszy po zakończeniu wersji testowej.",
+    features: [
+      "Wspólny kalendarz terminów grupy",
+      "Przypomnienia o kolokwiach i oddawaniu prac",
+      "Podział zadań projektowych w tygodniu",
+      "Do 25 osób w grupie"
+    ],
+    deliverables: [
+      { item: "Przestrzeń grupowa FlowTImeAi", format: "Konto online (semestr)", scope: "Do 25 użytkowników" },
+      { item: "Kalendarz terminów grupy", format: "Moduł w aplikacji", scope: "Wspólny widok" }
+    ],
+    image: "/assets/shop-pack.svg",
+    imageAlt: "Ilustracja licencji grupowej FlowTImeAi Edu",
+    sku: "FTA-EDU-2026",
+    rating: 0,
+    reviews: 0,
+    popularity: 20,
+    format: "Dostęp online",
+    inStock: false
   }
 ];

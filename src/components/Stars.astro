@@ -1,0 +1,15 @@
+---
+interface Props { rating: number; reviews?: number; }
+const { rating, reviews } = Astro.props;
+const icons = [1, 2, 3, 4, 5].map((n) =>
+  rating >= n - 0.25 ? "bi-star-fill" : rating >= n - 0.75 ? "bi-star-half" : "bi-star"
+);
+const label = rating > 0
+  ? `Ocena ${rating.toFixed(1).replace(".", ",")} na 5${reviews !== undefined ? `, opinii: ${reviews}` : ""}`
+  : "Brak opinii";
+---
+
+<span class="stars" role="img" aria-label={label}>
+  {rating > 0 && icons.map((icon) => <i class={`bi ${icon}`} aria-hidden="true"></i>)}
+  {reviews !== undefined && <span class="stars-count" aria-hidden="true">{rating > 0 ? `${rating.toFixed(1).replace(".", ",")} (${reviews})` : "Brak opinii"}</span>}
+</span>

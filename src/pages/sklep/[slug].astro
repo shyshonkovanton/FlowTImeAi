@@ -1,8 +1,12 @@
 ---
+import { url } from "../../lib/url";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import Stars from "../../components/Stars.astro";
 import { products, type ProductItem } from "../../data/products";
+import { discountPercent, reviews } from "../../lib/shop";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -18,6 +22,7 @@ interface Props {
 const { product } = Astro.props;
 const title = `${product.name} — Sklep FlowTImeAi`;
 const description = product.shortDescription;
+const discount = discountPercent(product);
 
 const productSchema = {
   "@context": "https://schema.org",
@@ -27,13 +32,27 @@ const productSchema = {
   sku: product.sku,
   category: product.category,
   image: `https://shyshonkovanton.github.io/FlowTImeAi${product.image}`,
-  brand: {
-    "@type": "Brand",
-    name: "FlowTImeAi"
+  brand: { "@type": "Brand", name: "FlowTImeAi" },
+  ...(product.reviews > 0 && {
+    aggregateRating: { "@type": "AggregateRating", ratingValue: product.rating, reviewCount: product.reviews }
+  }),
+  offers: {
+    "@type": "Offer",
+    price: product.priceValue,
+    priceCurrency: product.currency,
+    availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+    url: `https://shyshonkovanton.github.io/FlowTImeAi/sklep/${product.slug}/`
   }
 };
 
-const otherProducts = products.filter((item) => item.slug !== product.slug).slice(0, 2);
+// Galeria: własna grafika produktu + dwie pozostałe ilustracje z katalogu.
+const gallerySources = [...new Set([product.image, ...products.map((p) => p.image)])].slice(0, 3);
+const gallery = gallerySources.map((src, i) => ({ src, alt: i === 0 ? product.imageAlt : `${product.name} — widok ${i + 1}` }));
+
+const related = products
+  .filter((item) => item.slug !== product.slug)
+  .sort((a, b) => Number(b.category === product.category) - Number(a.category === product.category) || b.popularity - a.popularity)
+  .slice(0, 3);
 ---
 
 <BaseLayout {title} {description} canonicalPath={`/sklep/${product.slug}/`} ogImage={product.image} structuredData={productSchema}>
@@ -44,105 +63,129 @@ const otherProducts = products.filter((item) => item.slug !== product.slug).slic
       <div class="container-xl">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Strona główna</a></li>
-            <li class="breadcrumb-item"><a href="/sklep/">Sklep</a></li>
+            <li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li>
+            <li class="breadcrumb-item"><a href={url("/sklep/")}>Sklep</a></li>
             <li class="breadcrumb-item active" aria-current="page">{product.name}</li>
           </ol>
         </nav>
 
         <div class="row gy-5 gx-0 gx-lg-5 align-items-start">
           <div class="col-lg-6">
-            <figure class="article-hero mb-0">
-              <img src={product.image} width="720" height="430" fetchpriority="high" decoding="async" alt={product.imageAlt} />
-              <figcaption>Kod katalogowy: {product.sku} · Kategoria: {product.category}</figcaption>
+            <figure class="product-gallery mb-0">
+              <img class="product-gallery-main" id="galleryMain" src={url(gallery[0].src)} width="720" height="430" fetchpriority="high" decoding="async" alt={gallery[0].alt} />
+              <div class="product-thumbs" role="group" aria-label="Miniatury zdjęć produktu">
+                {gallery.map((img, i) => (
+                  <button class:list={["product-thumb", { active: i === 0 }]} type="button" data-gallery-src={url(img.src)} data-gallery-alt={img.alt} aria-label={`Pokaż zdjęcie ${i + 1} z ${gallery.length}`} aria-pressed={i === 0 ? "true" : "false"}>
+                    <img src={url(img.src)} width="120" height="72" loading="lazy" decoding="async" alt="" />
+                  </button>
+                ))}
+              </div>
             </figure>
           </div>
 
           <div class="col-lg-6">
             <span class="badge blog-category mb-2">{product.category}</span>
             <h1 class="product-title">{product.name}</h1>
-            <p class="article-lead">{product.lead}</p>
+            <p class="product-code">Kod produktu: <strong>{product.sku}</strong></p>
+            <Stars rating={product.rating} reviews={product.reviews} />
 
             <div class="product-price-box">
               <div>
-                <span class="product-price-label">Cena orientacyjna (projektowa)</span>
+                <span class="product-price-label">Cena brutto</span>
                 <strong class="product-price-value">{product.price}</strong>
+                {product.oldPrice && <del class="shop-price-old"><span class="visually-hidden">Cena regularna: </span>{product.oldPrice}</del>}
+                {discount && <span class="badge badge-promo ms-2">−{discount}%</span>}
                 <small class="d-block text-muted">{product.billingNote}</small>
               </div>
-              <span class="badge shop-demo-badge">Wersja demonstracyjna</span>
+              {product.inStock
+                ? <span class="stock-status stock-in"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> W magazynie</span>
+                : <span class="stock-status stock-out"><i class="bi bi-clock-history" aria-hidden="true"></i> Wkrótce w sprzedaży</span>}
             </div>
 
-            <h2>Najważniejsze elementy pakietu</h2>
-            <ul class="article-list">
-              {product.features.map((feat) => (
-                <li>{feat}</li>
-              ))}
-            </ul>
+            <p class="article-lead">{product.shortDescription}</p>
 
-            <form class="product-order-form" id="productOrderForm" action={`/sklep/${product.slug}/`} method="post">
+            <form class="product-order-form" id="productOrderForm" action={url("/koszyk/")} method="get">
               <div class="row g-3 align-items-end">
-                <div class="col-sm-5">
-                  <label for="orderVariant">Wariant wdrożenia</label>
+                <div class="col-sm-8">
+                  <label for="orderVariant">Wariant</label>
                   <select class="form-select" id="orderVariant" name="variant">
                     <option value="standard" selected>Standardowy dostęp online</option>
                     <option value="edukacyjny">Wariant akademicki / studencki</option>
                     <option value="konsultacja">Pakiet z konsultacją wdrożeniową</option>
                   </select>
                 </div>
-                <div class="col-sm-7">
-                  <button class="btn btn-primary w-100" type="submit">Wybierz w wersji demonstracyjnej <span aria-hidden="true">→</span></button>
+                <div class="col-sm-4">
+                  <label for="orderQty">Liczba sztuk</label>
+                  <input class="form-control" type="number" id="orderQty" name="qty" value="1" min="1" max="10" inputmode="numeric" />
+                </div>
+                <div class="col-12">
+                  {product.inStock
+                    ? <a class="btn btn-primary w-100" href={url("/koszyk/")}><i class="bi bi-cart-plus" aria-hidden="true"></i> Dodaj do koszyka</a>
+                    : <button class="btn btn-primary w-100" type="button" disabled>Produkt niedostępny</button>}
                 </div>
               </div>
-              <p class="product-order-status" id="productOrderStatus" role="status" aria-live="polite"></p>
             </form>
           </div>
         </div>
 
-        <section class="product-spec-section mt-5 pt-4" aria-labelledby="spec-heading">
-          <h2 id="spec-heading">Zawartość i specyfikacja pakietu</h2>
-          <div class="table-responsive">
-            <table class="table article-table">
-              <caption>Zestawienie komponentów wchodzących w skład „{product.name}”</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Element pakietu</th>
-                  <th scope="col">Forma dostarczenia</th>
-                  <th scope="col">Zakres użycia</th>
-                </tr>
-              </thead>
-              <tbody>
-                {product.deliverables.map((row) => (
-                  <tr>
-                    <td>{row.item}</td>
-                    <td>{row.format}</td>
-                    <td>{row.scope}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <section class="product-tabs-section mt-5 pt-4" aria-label="Szczegółowe informacje o produkcie">
+          <ul class="nav nav-tabs" id="productTabs" role="tablist">
+            <li class="nav-item" role="presentation"><button class="nav-link active" id="tab-desc" data-bs-toggle="tab" data-bs-target="#pane-desc" type="button" role="tab" aria-controls="pane-desc" aria-selected="true">Pełny opis</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" id="tab-spec" data-bs-toggle="tab" data-bs-target="#pane-spec" type="button" role="tab" aria-controls="pane-spec" aria-selected="false">Specyfikacja</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" id="tab-reviews" data-bs-toggle="tab" data-bs-target="#pane-reviews" type="button" role="tab" aria-controls="pane-reviews" aria-selected="false">Opinie klientów ({product.reviews})</button></li>
+          </ul>
+          <div class="tab-content product-tab-content">
+            <div class="tab-pane fade show active" id="pane-desc" role="tabpanel" aria-labelledby="tab-desc" tabindex="0">
+              <p>{product.lead}</p>
+              <h2>Najważniejsze elementy pakietu</h2>
+              <ul class="article-list">
+                {product.features.map((feat) => <li>{feat}</li>)}
+              </ul>
+            </div>
+            <div class="tab-pane fade" id="pane-spec" role="tabpanel" aria-labelledby="tab-spec" tabindex="0">
+              <div class="table-responsive">
+                <table class="table article-table">
+                  <caption>Zawartość i parametry: {product.name}</caption>
+                  <thead>
+                    <tr><th scope="col">Element pakietu</th><th scope="col">Forma dostarczenia</th><th scope="col">Zakres użycia</th></tr>
+                  </thead>
+                  <tbody>
+                    {product.deliverables.map((row) => (
+                      <tr><td>{row.item}</td><td>{row.format}</td><td>{row.scope}</td></tr>
+                    ))}
+                    <tr><td>Format produktu</td><td>{product.format}</td><td>Kod: {product.sku}</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="pane-reviews" role="tabpanel" aria-labelledby="tab-reviews" tabindex="0">
+              {product.reviews > 0 ? (
+                <>
+                  <p class="reviews-note">Przykładowe opinie — dane demonstracyjne projektu.</p>
+                  <ul class="reviews-list">
+                    {reviews.map((review) => (
+                      <li class="review-item">
+                        <div class="review-head"><strong>{review.author}</strong><Stars rating={review.rating} /><span class="review-date">{review.date}</span></div>
+                        <p>{review.text}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <p>Ten produkt nie ma jeszcze opinii.</p>
+              )}
+            </div>
           </div>
         </section>
 
         <section class="related-products-section mt-5 pt-4" aria-labelledby="related-heading">
           <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-            <h2 id="related-heading" class="m-0">Pozostałe pakiety w sklepie</h2>
-            <a class="blog-read-link" href="/sklep/">Wróć do pełnego katalogu <span aria-hidden="true">→</span></a>
+            <h2 id="related-heading" class="m-0">Mogą Cię również zainteresować</h2>
+            <a class="blog-read-link" href={url("/sklep/")}>Pełny katalog <span aria-hidden="true">→</span></a>
           </div>
           <div class="row g-4">
-            {otherProducts.map((item) => (
-              <div class="col-md-6">
-                <article class="card blog-card h-100">
-                  <div class="card-body d-flex flex-column">
-                    <div class="blog-meta">
-                      <span class="badge blog-category">{item.category}</span>
-                      <strong>{item.price}</strong>
-                    </div>
-                    <h3 class="blog-card-title">{item.name}</h3>
-                    <p class="blog-card-text">{item.shortDescription}</p>
-                    <a class="blog-read-link mt-auto" href={`/sklep/${item.slug}/`}>Zobacz produkt <span aria-hidden="true">→</span></a>
-                  </div>
-                </article>
-              </div>
+            {related.map((item) => (
+              <div class="col-md-6 col-lg-4"><ProductCard product={item} /></div>
             ))}
           </div>
         </section>

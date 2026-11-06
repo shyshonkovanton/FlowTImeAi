@@ -1,0 +1,137 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+
+const orders = [
+  { no: "FTA-2026-0142", date: "04.11.2026", total: "267,00 zł", status: "W realizacji", tone: "progress", items: "FlowTImeAi Personal (1), Zestaw Szablonów „Spokojny Tydzień” (2)" },
+  { no: "FTA-2026-0118", date: "21.10.2026", total: "119,00 zł", status: "Wysłane", tone: "done", items: "Kurs Wideo: Planowanie Czasu z AI bez Presji (1)" },
+  { no: "FTA-2026-0097", date: "02.10.2026", total: "39,00 zł", status: "Wysłane", tone: "done", items: "Szablon „Kalendarz Studenta” (1)" }
+];
+---
+
+<BaseLayout title="Moje konto — FlowTImeAi" description="Panel klienta FlowTImeAi: pulpit, historia zamówień, adresy dostawy i ustawienia konta (wersja demonstracyjna)." canonicalPath="/konto/">
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header active="account" />
+  <main id="main">
+    <section class="article-page shop-page" id="top">
+      <div class="container-xl">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Moje konto</li>
+          </ol>
+        </nav>
+
+        <div class="alert alert-success order-success" id="orderSuccess" role="status" hidden>
+          <i class="bi bi-check-circle-fill" aria-hidden="true"></i> Dziękujemy! Zamówienie zostało przyjęte (symulacja — nie pobrano płatności).
+        </div>
+
+        <div class="row gy-4 gx-0 gx-lg-5">
+          <div class="col-lg-3">
+            <nav aria-label="Menu konta">
+              <div class="nav flex-column nav-pills account-nav" id="accountTabs" role="tablist" aria-orientation="vertical">
+                <button class="nav-link active" id="acc-dash-tab" data-bs-toggle="pill" data-bs-target="#acc-dash" type="button" role="tab" aria-controls="acc-dash" aria-selected="true"><i class="bi bi-speedometer2" aria-hidden="true"></i> Pulpit</button>
+                <button class="nav-link" id="acc-orders-tab" data-bs-toggle="pill" data-bs-target="#acc-orders" type="button" role="tab" aria-controls="acc-orders" aria-selected="false"><i class="bi bi-bag" aria-hidden="true"></i> Moje zamówienia</button>
+                <button class="nav-link" id="acc-addr-tab" data-bs-toggle="pill" data-bs-target="#acc-addr" type="button" role="tab" aria-controls="acc-addr" aria-selected="false"><i class="bi bi-geo-alt" aria-hidden="true"></i> Adresy dostawy</button>
+                <button class="nav-link" id="acc-set-tab" data-bs-toggle="pill" data-bs-target="#acc-set" type="button" role="tab" aria-controls="acc-set" aria-selected="false"><i class="bi bi-gear" aria-hidden="true"></i> Ustawienia konta</button>
+                <a class="nav-link" href={url("/")}><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Wyloguj</a>
+              </div>
+            </nav>
+          </div>
+
+          <div class="col-lg-9">
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="acc-dash" role="tabpanel" aria-labelledby="acc-dash-tab" tabindex="0">
+                <h1 class="page-title">Witaj, Anton!</h1>
+                <p class="demo-note"><i class="bi bi-info-circle" aria-hidden="true"></i> Konto demonstracyjne — dane są przykładowe.</p>
+                <div class="row g-3 account-stats">
+                  <div class="col-sm-4"><div class="stat-card"><span>Zamówienia</span><strong>3</strong></div></div>
+                  <div class="col-sm-4"><div class="stat-card"><span>W realizacji</span><strong>1</strong></div></div>
+                  <div class="col-sm-4"><div class="stat-card"><span>Status konta</span><strong>Aktywne</strong></div></div>
+                </div>
+
+                <h2>Ostatnie zamówienie</h2>
+                <div class="order-progress">
+                  <div class="d-flex justify-content-between"><strong>{orders[0].no}</strong><span>{orders[0].status}</span></div>
+                  <div class="progress" role="progressbar" aria-label="Postęp realizacji zamówienia" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar" style="width: 60%"></div>
+                  </div>
+                  <small>Przyjęte → <strong>W realizacji</strong> → Wysłane → Dostarczone</small>
+                </div>
+
+                <h2>Historia zamówień</h2>
+                <div class="table-responsive">
+                  <table class="table orders-table align-middle">
+                    <caption class="visually-hidden">Historia zamówień</caption>
+                    <thead><tr><th scope="col">Numer</th><th scope="col">Data</th><th scope="col">Kwota</th><th scope="col">Status</th><th scope="col">Szczegóły</th></tr></thead>
+                    <tbody>
+                      {orders.map((o) => (
+                        <tr>
+                          <th scope="row">{o.no}</th>
+                          <td>{o.date}</td>
+                          <td class="text-nowrap">{o.total}</td>
+                          <td><span class:list={["badge status-badge", `status-${o.tone}`]}>{o.status}</span></td>
+                          <td><details class="order-details"><summary>Szczegóły</summary><p>{o.items}</p></details></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="tab-pane fade" id="acc-orders" role="tabpanel" aria-labelledby="acc-orders-tab" tabindex="0">
+                <h2 class="mt-0">Moje zamówienia</h2>
+                <ul class="list-group orders-list">
+                  {orders.map((o) => (
+                    <li class="list-group-item">
+                      <div><strong>{o.no}</strong><small>{o.date} · {o.items}</small></div>
+                      <div class="text-end"><span class="d-block fw-semibold">{o.total}</span><span class:list={["badge status-badge", `status-${o.tone}`]}>{o.status}</span></div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="tab-pane fade" id="acc-addr" role="tabpanel" aria-labelledby="acc-addr-tab" tabindex="0">
+                <h2 class="mt-0">Adres dostawy</h2>
+                <div class="address-card" id="addressView">
+                  <span class="badge blog-category">Domyślny</span>
+                  <address id="addressText">Anton Shyshonkov<br />ul. Akademicka 14<br />00-950 Warszawa</address>
+                  <button class="btn btn-outline-primary" type="button" id="addressEdit">Edytuj adres</button>
+                </div>
+                <form class="address-form" id="addressForm" action={url("/konto/")} method="post" hidden>
+                  <div class="row g-3">
+                    <div class="col-12"><label for="addrName">Imię i nazwisko</label><input class="form-control" id="addrName" name="name" value="Anton Shyshonkov" required /></div>
+                    <div class="col-12"><label for="addrStreet">Ulica i numer</label><input class="form-control" id="addrStreet" name="street" value="ul. Akademicka 14" required /></div>
+                    <div class="col-sm-4"><label for="addrZip">Kod pocztowy</label><input class="form-control" id="addrZip" name="zip" value="00-950" pattern="[0-9]{2}-[0-9]{3}" required /></div>
+                    <div class="col-sm-8"><label for="addrCity">Miasto</label><input class="form-control" id="addrCity" name="city" value="Warszawa" required /></div>
+                  </div>
+                  <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-primary" type="submit">Zapisz adres</button>
+                    <button class="btn btn-outline-primary" type="button" id="addressCancel">Anuluj</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="tab-pane fade" id="acc-set" role="tabpanel" aria-labelledby="acc-set-tab" tabindex="0">
+                <h2 class="mt-0">Ustawienia konta</h2>
+                <form class="address-form" id="settingsForm" action={url("/konto/")} method="post">
+                  <div class="row g-3">
+                    <div class="col-12"><label for="setEmail">Adres e-mail</label><input class="form-control" type="email" id="setEmail" name="email" value="kontakt@flowtimeai.edu.pl" required /></div>
+                    <div class="col-12">
+                      <div class="form-check"><input class="form-check-input" type="checkbox" id="setNews" name="news" checked /><label class="form-check-label" for="setNews">Chcę otrzymywać wiadomości o nowościach FlowTImeAi</label></div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary mt-3" type="submit">Zapisz ustawienia</button>
+                  <p class="promo-status" id="settingsStatus" role="status" aria-live="polite"></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

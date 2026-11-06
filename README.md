@@ -31,6 +31,13 @@ Responsywny serwis internetowy zrealizowany w oparciu o **Astro** oraz **Bootstr
 - **Etap 3 i 4 — Moduł Sklepu i podstrony produktów (`/sklep/`, `/sklep/[slug]/`):**
   - Katalog 4 produktów cyfrowych (`src/pages/sklep/index.astro`) oraz 4 dedykowane podstrony produktowe (`src/pages/sklep/[slug].astro`) z danymi strukturalnymi `Schema.org Product` (rozwiązanie demonstracyjne — bez prawdziwych płatności backendowych).
 
+- **Etap 5 — Moduł sklepu (ćwiczenie 5):**
+  - Nawigacja z ikonami konta i koszyka (Bootstrap Icons przez CDN, `badge` z licznikiem) oraz sekcja „Bestsellery” (`#sklep`) na stronie głównej.
+  - Katalog `/sklep/`: `breadcrumb`, panel filtrów (`<aside>`: kategorie, suwak ceny, format, dostępność, reset), pasek sortowania i licznik wyników, 8 produktów, paginacja.
+  - Karta produktu `/sklep/[slug]/`: galeria z miniaturami, ocena, cena i dostępność, wariant i liczba sztuk, „Dodaj do koszyka”, zakładki (opis / specyfikacja / opinie), rekomendacje.
+  - Koszyk `/koszyk/` (tabela `table-responsive`, kod rabatowy `FLOW10`, podsumowanie), kasa `/zamowienie/` (dane, dostawa, płatność, faktura z NIP, zgody) oraz konto `/konto/` (menu `nav-pills`, zamówienia, edycja adresu).
+  - Style modułu: blok `/* MODUŁ E-COMMERCE */` w `styles.css`; logika: `src/scripts/shop.js`.
+
 ---
 
 ## Uruchomienie i budowanie

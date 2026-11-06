@@ -1,0 +1,102 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { cartLines, formatPLN, getProduct, priceOf, SHIPPING } from "../../lib/shop";
+
+const lines = cartLines.map(({ slug, qty }) => ({ product: getProduct(slug), qty }));
+const subtotal = lines.reduce((sum, l) => sum + priceOf(l.product) * l.qty, 0);
+const shipping = SHIPPING.paczkomat;
+---
+
+<BaseLayout title="Koszyk — Sklep FlowTImeAi" description="Podsumowanie koszyka zakupowego FlowTImeAi: produkty, kod rabatowy i koszt zamówienia." canonicalPath="/koszyk/">
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header active="cart" />
+  <main id="main">
+    <section class="article-page shop-page" id="top">
+      <div class="container-xl">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li>
+            <li class="breadcrumb-item"><a href={url("/sklep/")}>Sklep</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Koszyk</li>
+          </ol>
+        </nav>
+        <h1 class="page-title">Twój koszyk</h1>
+
+        <div class="row gy-4 gx-0 gx-lg-5" id="cartRoot" data-shipping={shipping}>
+          <div class="col-lg-8">
+            <div id="cartContent">
+              <div class="table-responsive">
+                <table class="table cart-table align-middle">
+                  <caption class="visually-hidden">Produkty w koszyku</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Produkt</th>
+                      <th scope="col">Cena jedn.</th>
+                      <th scope="col">Ilość</th>
+                      <th scope="col">Wartość</th>
+                      <th scope="col"><span class="visually-hidden">Akcja</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {lines.map(({ product, qty }, i) => (
+                      <tr data-cart-row data-price={product.priceValue}>
+                        <td>
+                          <a class="cart-product" href={url(`/sklep/${product.slug}/`)}>
+                            <img class="cart-thumb" src={url(product.image)} width="96" height="58" loading="lazy" decoding="async" alt="" />
+                            <span>{product.name}</span>
+                          </a>
+                        </td>
+                        <td class="text-nowrap">{formatPLN(priceOf(product))}</td>
+                        <td>
+                          <label class="visually-hidden" for={`qty-${i}`}>Ilość: {product.name}</label>
+                          <input class="form-control cart-qty" type="number" id={`qty-${i}`} value={qty} min="1" max="10" inputmode="numeric" data-cart-qty />
+                        </td>
+                        <td class="text-nowrap fw-semibold" data-line-total>{formatPLN(priceOf(product) * qty)}</td>
+                        <td>
+                          <button class="btn btn-icon" type="button" data-cart-remove aria-label={`Usuń z koszyka: ${product.name}`}><i class="bi bi-trash" aria-hidden="true"></i></button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <form class="promo-form" id="promoForm" action={url("/koszyk/")} method="post" novalidate>
+                <label for="promoCode">Masz kod rabatowy?</label>
+                <div class="promo-row">
+                  <input class="form-control" type="text" id="promoCode" name="promo" placeholder="Wpisz kod" autocomplete="off" aria-describedby="promoStatus" />
+                  <button class="btn btn-primary" type="submit">Aktywuj kod</button>
+                </div>
+                <p class="promo-status" id="promoStatus" role="status" aria-live="polite">Kod demonstracyjny: <code>FLOW10</code> (−10%).</p>
+              </form>
+            </div>
+
+            <div class="cart-empty" id="cartEmpty" hidden>
+              <i class="bi bi-cart-x" aria-hidden="true"></i>
+              <p>Twój koszyk jest pusty.</p>
+              <a class="btn btn-primary" href={url("/sklep/")}>Wróć do sklepu</a>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <aside class="order-summary" aria-labelledby="summary-title">
+              <h2 id="summary-title">Podsumowanie</h2>
+              <dl class="summary-list">
+                <div><dt>Suma częściowa</dt><dd id="sumSubtotal">{formatPLN(subtotal)}</dd></div>
+                <div id="sumDiscountRow" hidden><dt>Rabat</dt><dd id="sumDiscount">−0,00 zł</dd></div>
+                <div><dt>Szacowana dostawa</dt><dd id="sumShipping">{formatPLN(shipping)}</dd></div>
+                <div class="summary-total"><dt>Razem (brutto)</dt><dd id="sumTotal">{formatPLN(subtotal + shipping)}</dd></div>
+              </dl>
+              <a class="btn btn-primary btn-lg w-100" id="checkoutLink" href={url("/zamowienie/")}>Przejdź do kasy <span aria-hidden="true">→</span></a>
+              <a class="blog-read-link d-inline-flex mt-3" href={url("/sklep/")}>← Kontynuuj zakupy</a>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,119 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { cartLines, formatPLN, getProduct, priceOf, SHIPPING } from "../../lib/shop";
+
+const lines = cartLines.map(({ slug, qty }) => ({ product: getProduct(slug), qty }));
+const subtotal = lines.reduce((sum, l) => sum + priceOf(l.product) * l.qty, 0);
+
+const deliveries = [
+  { id: "kurier", label: "Kurier", note: "1–2 dni robocze", price: SHIPPING.kurier },
+  { id: "paczkomat", label: "Paczkomat", note: "1–2 dni robocze", price: SHIPPING.paczkomat },
+  { id: "odbior", label: "Odbiór osobisty", note: "ul. Akademicka 14, Warszawa", price: SHIPPING.odbior }
+];
+const payments = [
+  { id: "blik", label: "BLIK" },
+  { id: "karta", label: "Karta płatnicza" },
+  { id: "przelew", label: "Szybki przelew" }
+];
+---
+
+<BaseLayout title="Zamówienie — Sklep FlowTImeAi" description="Kasa FlowTImeAi: dane do zamówienia, metoda dostawy i płatności (wersja demonstracyjna)." canonicalPath="/zamowienie/">
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header active="cart" />
+  <main id="main">
+    <section class="article-page shop-page" id="top">
+      <div class="container-xl">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li>
+            <li class="breadcrumb-item"><a href={url("/koszyk/")}>Koszyk</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Zamówienie</li>
+          </ol>
+        </nav>
+        <h1 class="page-title">Składanie zamówienia</h1>
+        <p class="demo-note"><i class="bi bi-info-circle" aria-hidden="true"></i> Wersja demonstracyjna — płatność nie jest realizowana, a dane nie są nigdzie wysyłane.</p>
+
+        <form id="checkoutForm" action={url("/konto/")} method="post">
+          <div class="row gy-4 gx-0 gx-lg-5" data-subtotal={subtotal}>
+            <div class="col-lg-7">
+              <fieldset class="checkout-block">
+                <legend>1. Dane i adres dostawy</legend>
+                <div class="row g-3">
+                  <div class="col-sm-6"><label for="firstName">Imię</label><input class="form-control" id="firstName" name="firstName" autocomplete="given-name" required /></div>
+                  <div class="col-sm-6"><label for="lastName">Nazwisko</label><input class="form-control" id="lastName" name="lastName" autocomplete="family-name" required /></div>
+                  <div class="col-12"><label for="street">Ulica i numer</label><input class="form-control" id="street" name="street" autocomplete="street-address" required /></div>
+                  <div class="col-sm-4"><label for="zip">Kod pocztowy</label><input class="form-control" id="zip" name="zip" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{2}-[0-9]{3}" placeholder="00-000" required /></div>
+                  <div class="col-sm-8"><label for="city">Miasto</label><input class="form-control" id="city" name="city" autocomplete="address-level2" required /></div>
+                  <div class="col-sm-6"><label for="phone">Telefon</label><input class="form-control" type="tel" id="phone" name="phone" autocomplete="tel" required /></div>
+                  <div class="col-sm-6"><label for="email">E-mail</label><input class="form-control" type="email" id="email" name="email" autocomplete="email" required /></div>
+                </div>
+              </fieldset>
+
+              <fieldset class="checkout-block">
+                <legend>2. Metoda dostawy</legend>
+                {deliveries.map((d, i) => (
+                  <div class="choice-row">
+                    <input class="form-check-input" type="radio" name="delivery" id={`del-${d.id}`} value={d.id} data-price={d.price} checked={d.id === "paczkomat"} required />
+                    <label for={`del-${d.id}`}><span><strong>{d.label}</strong><small>{d.note}</small></span><span class="choice-price">{d.price === 0 ? "0,00 zł" : formatPLN(d.price)}</span></label>
+                  </div>
+                ))}
+              </fieldset>
+
+              <fieldset class="checkout-block">
+                <legend>3. Metoda płatności</legend>
+                {payments.map((p) => (
+                  <div class="choice-row">
+                    <input class="form-check-input" type="radio" name="payment" id={`pay-${p.id}`} value={p.id} checked={p.id === "blik"} required />
+                    <label for={`pay-${p.id}`}><span><strong>{p.label}</strong></span></label>
+                  </div>
+                ))}
+              </fieldset>
+
+              <fieldset class="checkout-block">
+                <legend>4. Faktura i zgody</legend>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="invoiceToggle" name="invoice" aria-controls="invoiceFields" aria-expanded="false" />
+                  <label class="form-check-label" for="invoiceToggle">Chcę otrzymać fakturę na firmę</label>
+                </div>
+                <div class="row g-3 mb-3" id="invoiceFields" hidden>
+                  <div class="col-sm-5"><label for="nip">NIP</label><input class="form-control" id="nip" name="nip" inputmode="numeric" pattern="[0-9]{10}" placeholder="10 cyfr" /></div>
+                  <div class="col-sm-7"><label for="company">Nazwa firmy</label><input class="form-control" id="company" name="company" autocomplete="organization" /></div>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="termsOrder" name="terms" required />
+                  <label class="form-check-label" for="termsOrder">Akceptuję regulamin sklepu (wersja demonstracyjna).</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="termsPrivacy" name="privacy" required />
+                  <label class="form-check-label" for="termsPrivacy">Zapoznałem(-am) się z polityką prywatności.</label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="col-lg-5">
+              <aside class="order-summary" aria-labelledby="summary-title">
+                <h2 id="summary-title">Twoje zamówienie</h2>
+                <ul class="summary-items">
+                  {lines.map(({ product, qty }) => (
+                    <li><img class="cart-thumb" src={url(product.image)} width="96" height="58" loading="lazy" decoding="async" alt="" /><span>{product.name}<small>Ilość: {qty}</small></span><strong>{formatPLN(priceOf(product) * qty)}</strong></li>
+                  ))}
+                </ul>
+                <dl class="summary-list">
+                  <div><dt>Suma częściowa</dt><dd>{formatPLN(subtotal)}</dd></div>
+                  <div><dt>Dostawa</dt><dd id="coShipping">{formatPLN(SHIPPING.paczkomat)}</dd></div>
+                  <div class="summary-total"><dt>Do zapłaty</dt><dd id="coTotal">{formatPLN(subtotal + SHIPPING.paczkomat)}</dd></div>
+                </dl>
+                <button class="btn btn-primary btn-lg w-100" type="submit">Kupuję i płacę <span aria-hidden="true">→</span></button>
+                <a class="blog-read-link d-inline-flex mt-3" href={url("/koszyk/")}>← Wróć do koszyka</a>
+              </aside>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,9 +1,13 @@
 ---
+import { url } from "../lib/url";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import ProductCard from "../components/ProductCard.astro";
 import { posts } from "../data/posts";
 import { products } from "../data/products";
+
+const bestsellers = [...products].sort((a, b) => b.popularity - a.popularity).slice(0, 4);
 ---
 
 <BaseLayout>
@@ -26,7 +30,7 @@ import { products } from "../data/products";
           </div>
           <div class="col-lg-6 hero-visual">
             <div class="visual-glow" aria-hidden="true"></div>
-            <img class="calendar-preview img-fluid" src="/assets/calendar-preview.svg" alt="Interfejs FlowTImeAi: tygodniowy kalendarz z kolorowymi spotkaniami, zadaniami i zaplanowanym czasem dla siebie" width="660" height="500" loading="eager" fetchpriority="high" decoding="async" />
+            <img class="calendar-preview img-fluid" src={url("/assets/calendar-preview.svg")} alt="Interfejs FlowTImeAi: tygodniowy kalendarz z kolorowymi spotkaniami, zadaniami i zaplanowanym czasem dla siebie" width="660" height="500" loading="eager" fetchpriority="high" decoding="async" />
             <div class="floating-note note-focus"><span class="note-icon focus-icon" aria-hidden="true">✦</span><span><strong>Czas dla siebie</strong><small>zarezerwowany w planie</small></span><span class="note-check" aria-hidden="true">✓</span></div>
             <div class="floating-note note-suggestion"><span class="suggestion-icon" aria-hidden="true">✧</span><span><strong>Masz czas na lunch</strong><small>12:30 · 45 minut</small></span></div>
           </div>
@@ -53,7 +57,7 @@ import { products } from "../data/products";
           </div>
           <div class="col-lg-6">
             <div class="about-visual-card">
-              <img class="img-fluid rounded-4" src="/assets/blog-week.svg" width="720" height="430" loading="lazy" decoding="async" alt="Widok harmonijnego planu tygodnia w metodologii FlowTImeAi" />
+              <img class="img-fluid rounded-4" src={url("/assets/blog-week.svg")} width="720" height="430" loading="lazy" decoding="async" alt="Widok harmonijnego planu tygodnia w metodologii FlowTImeAi" />
               <div class="about-visual-caption">
                 <strong>Spokojna architektura tygodnia</strong>
                 <span>Łączymy przejrzystość klasycznego kalendarza z nieinwazyjnymi podpowiedziami AI.</span>
@@ -68,10 +72,26 @@ import { products } from "../data/products";
       <div class="container-xl" id="features">
         <div class="section-heading text-center"><span class="eyebrow">Kluczowa oferta</span><h2>Porządek w zadaniach.<br /><span>Spokój w głowie.</span></h2><p>Trzy główne filary ekosystemu FlowTImeAi — od inteligentnego kalendarza po gotowe pakiety wdrożeniowe.</p></div>
         <div class="row g-3 g-lg-4 feature-grid">
-          <div class="col-md-6 col-lg-4"><article class="card feature-card feature-card-red h-100"><div class="card-body d-flex flex-column"><span class="feature-icon" aria-hidden="true">◷</span><h3 class="card-title">Inteligentny kalendarz dnia</h3><p class="card-text">Zbierz spotkania, zadania i osobiste plany w jednym przejrzystym kalendarzu tygodniowym.</p><div class="mini-schedule mb-3" aria-hidden="true"><span class="mini-time">09:00</span><span class="mini-event mini-event-blue">Spotkanie zespołu</span><span class="mini-time">11:30</span><span class="mini-event mini-event-red">Czas na skupienie</span></div><a class="blog-read-link mt-auto" href="/sklep/plan-osobisty-ai/">Zobacz plan Personal <span aria-hidden="true">→</span></a></div></article></div>
-          <div class="col-md-6 col-lg-4"><article class="card feature-card feature-card-blue h-100"><div class="card-body d-flex flex-column"><span class="feature-icon" aria-hidden="true">✧</span><h3 class="card-title">Asystent i warsztaty AI</h3><p class="card-text">Korzystaj z podpowiedzi AI oraz praktycznych materiałów o planowaniu czasu bez presji.</p><div class="insight-pill mb-3"><span aria-hidden="true">✦</span> Wygląda na to, że po 14:00 masz wolne</div><a class="blog-read-link mt-auto" href="/sklep/warsztat-planowania-ai/">Sprawdź kurs i narzędzia <span aria-hidden="true">→</span></a></div></article></div>
-          <div class="col-md-6 col-lg-4"><article class="card feature-card feature-card-green h-100"><div class="card-body d-flex flex-column"><span class="feature-icon" aria-hidden="true">♡</span><h3 class="card-title">Szablony i pakiety zespołowe</h3><p class="card-text">Wdróż gotowe szablony tygodnia oraz spokojny rytm spotkań w swojej pracy lub zespole.</p><div class="balance-row mb-3"><span>Skupienie</span><span class="balance-track"><i></i></span><span>Odpoczynek</span></div><a class="blog-read-link mt-auto" href="/sklep/">Przejdź do sklepu <span aria-hidden="true">→</span></a></div></article></div>
+          <div class="col-md-6 col-lg-4"><article class="card feature-card feature-card-red h-100"><div class="card-body d-flex flex-column"><span class="feature-icon" aria-hidden="true">◷</span><h3 class="card-title">Inteligentny kalendarz dnia</h3><p class="card-text">Zbierz spotkania, zadania i osobiste plany w jednym przejrzystym kalendarzu tygodniowym.</p><div class="mini-schedule mb-3" aria-hidden="true"><span class="mini-time">09:00</span><span class="mini-event mini-event-blue">Spotkanie zespołu</span><span class="mini-time">11:30</span><span class="mini-event mini-event-red">Czas na skupienie</span></div><a class="blog-read-link mt-auto" href={url("/sklep/plan-osobisty-ai/")}>Zobacz plan Personal <span aria-hidden="true">→</span></a></div></article></div>
+          <div class="col-md-6 col-lg-4"><article class="card feature-card feature-card-blue h-100"><div class="card-body d-flex flex-column"><span class="feature-icon" aria-hidden="true">✧</span><h3 class="card-title">Asystent i warsztaty AI</h3><p class="card-text">Korzystaj z podpowiedzi AI oraz praktycznych materiałów o planowaniu czasu bez presji.</p><div class="insight-pill mb-3"><span aria-hidden="true">✦</span> Wygląda na to, że po 14:00 masz wolne</div><a class="blog-read-link mt-auto" href={url("/sklep/warsztat-planowania-ai/")}>Sprawdź kurs i narzędzia <span aria-hidden="true">→</span></a></div></article></div>
+          <div class="col-md-6 col-lg-4"><article class="card feature-card feature-card-green h-100"><div class="card-body d-flex flex-column"><span class="feature-icon" aria-hidden="true">♡</span><h3 class="card-title">Szablony i pakiety zespołowe</h3><p class="card-text">Wdróż gotowe szablony tygodnia oraz spokojny rytm spotkań w swojej pracy lub zespole.</p><div class="balance-row mb-3"><span>Skupienie</span><span class="balance-track"><i></i></span><span>Odpoczynek</span></div><a class="blog-read-link mt-auto" href={url("/sklep/")}>Przejdź do sklepu <span aria-hidden="true">→</span></a></div></article></div>
         </div>
+      </div>
+    </section>
+
+    <section class="section shop-preview-section" id="sklep" aria-labelledby="shop-preview-title">
+      <div class="container-xl">
+        <div class="section-heading text-center">
+          <span class="eyebrow">Sklep FlowTImeAi</span>
+          <h2 id="shop-preview-title">Bestsellery <span>na spokojny tydzień.</span></h2>
+          <p>Najczęściej wybierane pakiety, szablony i kursy z naszego katalogu.</p>
+        </div>
+        <div class="row g-4">
+          {bestsellers.map((product) => (
+            <div class="col-sm-6 col-lg-3"><ProductCard product={product} /></div>
+          ))}
+        </div>
+        <div class="text-center blog-preview-cta"><a class="btn btn-primary btn-lg" href={url("/sklep/")}>Zobacz cały katalog <span aria-hidden="true">→</span></a></div>
       </div>
     </section>
 
@@ -94,18 +114,18 @@ import { products } from "../data/products";
           {posts.slice(0, 3).map((post) => (
             <div class="col-md-6 col-lg-4">
               <article class="card blog-card h-100">
-                <img class="blog-card-image" src={post.image} width="720" height="430" loading="lazy" decoding="async" alt={post.imageAlt} />
+                <img class="blog-card-image" src={url(post.image)} width="720" height="430" loading="lazy" decoding="async" alt={post.imageAlt} />
                 <div class="card-body d-flex flex-column">
                   <div class="blog-meta"><span class="badge blog-category">{post.category}</span><time datetime={post.datetime}>{post.date}</time></div>
                   <h3 class="blog-card-title">{post.title}</h3>
                   <p class="blog-card-text">{post.description}</p>
-                  <a class="blog-read-link mt-auto" href="/blog/single/">Czytaj dalej <span aria-hidden="true">→</span></a>
+                  <a class="blog-read-link mt-auto" href={url("/blog/single/")}>Czytaj dalej <span aria-hidden="true">→</span></a>
                 </div>
               </article>
             </div>
           ))}
         </div>
-        <div class="text-center blog-preview-cta"><a class="btn btn-outline-primary btn-lg" href="/blog/">Zobacz wszystkie publikacje <span aria-hidden="true">→</span></a></div>
+        <div class="text-center blog-preview-cta"><a class="btn btn-outline-primary btn-lg" href={url("/blog/")}>Zobacz wszystkie publikacje <span aria-hidden="true">→</span></a></div>
       </div>
     </section>
 
@@ -131,7 +151,7 @@ import { products } from "../data/products";
               </div>
             </dl>
           </div>
-          <form class="signup-form contact-form-box" id="signupForm" action="/#kontakt" method="post">
+          <form class="signup-form contact-form-box" id="signupForm" action={url("/#kontakt")} method="post">
             <div class="row g-3">
               <div class="col-12">
                 <label for="fullName">Imię i nazwisko</label>
