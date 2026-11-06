@@ -25,18 +25,11 @@ Responsywny serwis internetowy zrealizowany w oparciu o **Astro** oraz **Bootstr
 - **Etap 1 — Strona główna (`/`, `src/pages/index.astro`):**
   - Nawigacja z menu mobilnym (`navbar-toggler`) i kotwicami `#o-nas`, `#oferta`, `#kontakt`, `#faq` oraz linkami do modułów `/blog/` i `/sklep/`.
   - Sekcja wiodąca (`#hero`), dwukolumnowa sekcja O inicjatywie (`#o-nas`) z grafiką, 3 karty kluczowej oferty (`#oferta`), sekcja FAQ, podgląd 3 wpisów blogowych (`#blog`), pełna sekcja kontaktowa (`#kontakt`) z danymi teleadresowymi i 4-polowym formularzem zapytania oraz stopka z danymi identyfikacyjnymi.
-- **Etap 2 — Moduł Bloga (`/blog/`, `/blog/single/`):**
-  - Archiwum 6 artykułów (`src/pages/blog/index.astro`) w układzie dwukolumnowym (`main` + `aside`) z wyszukiwarką, kategoriami z `badge`, polecanymi wpisami i paginacją Bootstrap.
-  - Strona artykułu (`src/pages/blog/single.astro`) z okruszkami (`breadcrumb`), metadanymi, grafiką główną, leadem, nagłówkami `h2`/`h3`, cytatem `blockquote`, listą, drugą ilustracją `<figure>` z `<figcaption>`, tabelą responsywną, tagami, biogramem autora, udostępnianiem, nawigacją sąsiednich artykułów, 2 komentarzami i formularzem komentarza.
+- **Etap 2 — Moduł Bloga (`/blog/`, `/blog/[slug]/`):**
+  - Archiwum 6 artykułów (`src/pages/blog/index.astro`) w układzie dwukolumnowym (`main` + `aside`) z działającą wyszukiwarką, filtrem kategorii z licznikami `badge`, polecanymi wpisami i paginacją Bootstrap (`src/scripts/blog.js`).
+  - Strona artykułu (`src/pages/blog/[slug].astro`, 6 artykułów z `src/data/posts.ts`) z okruszkami (`breadcrumb`), metadanymi, grafiką główną, leadem, nagłówkami `h2`/`h3`, cytatem `blockquote`, listą, drugą ilustracją `<figure>` z `<figcaption>`, tabelą responsywną, tagami, biogramem autora, udostępnianiem, nawigacją sąsiednich artykułów, 2 komentarzami i formularzem komentarza.
 - **Etap 3 i 4 — Moduł Sklepu i podstrony produktów (`/sklep/`, `/sklep/[slug]/`):**
   - Katalog 4 produktów cyfrowych (`src/pages/sklep/index.astro`) oraz 4 dedykowane podstrony produktowe (`src/pages/sklep/[slug].astro`) z danymi strukturalnymi `Schema.org Product` (rozwiązanie demonstracyjne — bez prawdziwych płatności backendowych).
-
-- **Etap 5 — Moduł sklepu (ćwiczenie 5):**
-  - Nawigacja z ikonami konta i koszyka (Bootstrap Icons przez CDN, `badge` z licznikiem) oraz sekcja „Bestsellery” (`#sklep`) na stronie głównej.
-  - Katalog `/sklep/`: `breadcrumb`, panel filtrów (`<aside>`: kategorie, suwak ceny, format, dostępność, reset), pasek sortowania i licznik wyników, 8 produktów, paginacja.
-  - Karta produktu `/sklep/[slug]/`: galeria z miniaturami, ocena, cena i dostępność, wariant i liczba sztuk, „Dodaj do koszyka”, zakładki (opis / specyfikacja / opinie), rekomendacje.
-  - Koszyk `/koszyk/` (tabela `table-responsive`, kod rabatowy `FLOW10`, podsumowanie), kasa `/zamowienie/` (dane, dostawa, płatność, faktura z NIP, zgody) oraz konto `/konto/` (menu `nav-pills`, zamówienia, edycja adresu).
-  - Style modułu: blok `/* MODUŁ E-COMMERCE */` w `styles.css`; logika: `src/scripts/shop.js`.
 
 ---
 

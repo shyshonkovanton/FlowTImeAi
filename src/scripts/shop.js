@@ -1,16 +1,11 @@
 // Moduł e-commerce: katalog, galeria, koszyk, kasa, konto.
 // Każdy blok uruchamia się tylko na stronie, na której występują jego elementy.
 
+import { pluralPL, renderPagination } from "./utils.js";
+
 const formatPLN = (value) => `${value.toFixed(2).replace(".", ",")} zł`;
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-
-const pluralProducts = (n) => {
-  if (n === 1) return "produkt";
-  const lastTwo = n % 100;
-  const last = n % 10;
-  return last >= 2 && last <= 4 && !(lastTwo >= 12 && lastTwo <= 14) ? "produkty" : "produktów";
-};
 
 // --- Katalog: filtry, sortowanie, paginacja -------------------------------
 const filtersForm = $("#shopFilters");
@@ -25,7 +20,6 @@ if (filtersForm && shopGrid) {
   const countEl = $("#shopCount");
   const emptyEl = $("#shopEmpty");
   const pagination = $("#shopPagination");
-  const pageList = $("ul", pagination);
   let page = 1;
 
   const checked = (name) => $$(`input[name="${name}"]:checked`, filtersForm).map((el) => el.value);
@@ -35,29 +29,6 @@ if (filtersForm && shopGrid) {
     "price-asc": (a, b) => Number(a.dataset.price) - Number(b.dataset.price),
     "price-desc": (a, b) => Number(b.dataset.price) - Number(a.dataset.price),
     name: (a, b) => a.dataset.name.localeCompare(b.dataset.name, "pl")
-  };
-
-  const renderPagination = (pages) => {
-    pageList.replaceChildren();
-    pagination.hidden = pages <= 1;
-    if (pages <= 1) return;
-    const add = (label, target, { active = false, disabled = false, aria } = {}) => {
-      const li = document.createElement("li");
-      li.className = `page-item${active ? " active" : ""}${disabled ? " disabled" : ""}`;
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "page-link";
-      btn.textContent = label;
-      btn.disabled = disabled;
-      if (aria) btn.setAttribute("aria-label", aria);
-      if (active) btn.setAttribute("aria-current", "page");
-      btn.addEventListener("click", () => { page = target; apply(false); shopGrid.scrollIntoView({ behavior: "smooth", block: "start" }); });
-      li.append(btn);
-      pageList.append(li);
-    };
-    add("‹", page - 1, { disabled: page === 1, aria: "Poprzednia strona" });
-    for (let n = 1; n <= pages; n += 1) add(String(n), n, { active: n === page, aria: `Strona ${n}` });
-    add("›", page + 1, { disabled: page === pages, aria: "Następna strona" });
   };
 
   function apply(resetPage = true) {
@@ -85,9 +56,13 @@ if (filtersForm && shopGrid) {
     items.forEach((el) => { el.hidden = !visible.has(el); });
     matches.forEach((el, i) => { el.style.order = String(i); });
 
-    countEl.textContent = `Znaleziono: ${matches.length} ${pluralProducts(matches.length)}`;
+    countEl.textContent = `Znaleziono: ${matches.length} ${pluralPL(matches.length, "produkt", "produkty", "produktów")}`;
     emptyEl.hidden = matches.length > 0;
-    renderPagination(pages);
+    renderPagination(pagination, page, pages, (target) => {
+      page = target;
+      apply(false);
+      shopGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   }
 
   filtersForm.addEventListener("change", () => apply());

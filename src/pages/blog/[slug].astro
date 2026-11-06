@@ -1,0 +1,82 @@
+---
+import { url } from "../../lib/url";
+import { SITE_URL } from "../../lib/site";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { AUTHOR, posts, type BlogPost } from "../../data/posts";
+
+export function getStaticPaths() {
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: { post, prev: posts[i - 1], next: posts[i + 1] }
+  }));
+}
+
+interface Props { post: BlogPost; prev?: BlogPost; next?: BlogPost; }
+const { post, prev, next } = Astro.props;
+
+const title = `${post.title} — Blog FlowTImeAi`;
+const pageUrl = `${SITE_URL}/blog/${post.slug}/`;
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.title,
+  description: post.description,
+  image: `${SITE_URL}${post.image}`,
+  datePublished: post.datetime,
+  dateModified: post.datetime,
+  inLanguage: "pl",
+  author: { "@type": "Person", name: AUTHOR.name },
+  publisher: { "@type": "Organization", name: "FlowTImeAi" },
+  mainEntityOfPage: pageUrl
+};
+
+const encoded = encodeURIComponent(pageUrl);
+const shareLinks = [
+  { label: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${encoded}` },
+  { label: "X", href: `https://twitter.com/intent/tweet?url=${encoded}&text=${encodeURIComponent(post.title)}` },
+  { label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encoded}` }
+];
+const mailHref = `mailto:?subject=${encodeURIComponent(post.title)}&body=${encoded}`;
+const comments = [
+  { initials: "AK", name: "Anna Kowalska", date: "13 marca 2026", datetime: "2026-03-13", text: "Najbardziej pomaga mi wpisanie marginesu przed ważnym spotkaniem. Dzięki temu nie zaczynam kolejnych zadań w pośpiechu.", blue: false },
+  { initials: "PK", name: "Piotr Król", date: "14 marca 2026", datetime: "2026-03-14", text: "Dobry pomysł z przeglądem w środę. Przestałem traktować zmianę planu jako porażkę.", blue: true }
+];
+---
+
+<BaseLayout {title} description={post.description} canonicalPath={`/blog/${post.slug}/`} ogType="article" ogImage={post.image} structuredData={articleSchema}>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header active="blog" />
+  <main id="main">
+    <article class="article-page" id="top">
+      <div class="container-xl">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li><li class="breadcrumb-item"><a href={url("/blog/")}>Blog</a></li><li class="breadcrumb-item active" aria-current="page">{post.title}</li></ol></nav>
+        <header class="article-header"><span class="badge blog-category">{post.category}</span><h1>{post.title}</h1><div class="article-byline"><time datetime={post.datetime}>{post.date}</time><span>•</span><span>Autor: {AUTHOR.name}</span><span>•</span><span>{post.readingTime}</span></div></header>
+        <figure class="article-hero"><img src={url(post.image)} width="720" height="430" fetchpriority="high" decoding="async" alt={post.imageAlt} /><figcaption>{post.description}</figcaption></figure>
+        <div class="row justify-content-center"><div class="col-xl-8">
+          <p class="article-lead">{post.lead}</p>
+          <h2>{post.intro.heading}</h2>
+          <p>{post.intro.text}</p>
+          <blockquote class="blockquote article-quote">„{post.quote}”</blockquote>
+          <h2>{post.list.heading}</h2>
+          <ul class="article-list">{post.list.items.map((item) => <li><strong>{item.label}:</strong> {item.text}</li>)}</ul>
+          <figure class="article-figure"><img src={url(post.figure.image)} width="720" height="430" loading="lazy" decoding="async" alt={post.figure.alt} /><figcaption>{post.figure.caption}</figcaption></figure>
+          <h3>{post.detail.heading}</h3>
+          <p>{post.detail.text}</p>
+          <div class="table-responsive"><table class="table article-table"><caption>{post.table.caption}</caption><thead><tr>{post.table.head.map((h) => <th scope="col">{h}</th>)}</tr></thead><tbody>{post.table.rows.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}</tbody></table></div>
+          <div class="article-tags" aria-label="Tagi artykułu"><span>Tagi:</span>{post.tags.map((tag) => <a href={`${url("/blog/")}?q=${encodeURIComponent(tag)}`}>{tag}</a>)}</div>
+          <section class="author-card" aria-labelledby="author-title"><div class="author-avatar" aria-hidden="true">{AUTHOR.initials}</div><div><h2 id="author-title">{AUTHOR.name}</h2><p>{AUTHOR.bio}</p></div></section>
+          <section class="article-share" aria-labelledby="share-title"><h2 id="share-title">Przekaż dalej</h2><div>{shareLinks.map((s) => <a class="btn btn-outline-primary" href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>)}<a class="btn btn-outline-primary" href={mailHref}>E-mail</a></div></section>
+          <nav class="article-neighbors" aria-label="Sąsiednie artykuły">
+            {prev ? <a href={url(`/blog/${prev.slug}/`)} rel="prev"><small>← Poprzedni artykuł</small><strong>{prev.title}</strong></a> : <span class="article-neighbor-empty"><small>← Poprzedni artykuł</small><strong>To najnowszy wpis</strong></span>}
+            {next ? <a href={url(`/blog/${next.slug}/`)} rel="next"><small>Następny artykuł →</small><strong>{next.title}</strong></a> : <span class="article-neighbor-empty"><small>Następny artykuł →</small><strong>To najstarszy wpis</strong></span>}
+          </nav>
+          <section class="comments-section" aria-labelledby="comments-title"><h2 id="comments-title">Komentarze <span>({comments.length})</span></h2>{comments.map((c) => <article class="comment"><div class:list={["comment-avatar", { "comment-avatar-blue": c.blue }]} aria-hidden="true">{c.initials}</div><div><h3>{c.name}</h3><time datetime={c.datetime}>{c.date}</time><p>{c.text}</p></div></article>)}</section>
+          <section class="comment-form-section" aria-labelledby="comment-form-title"><h2 id="comment-form-title">Dodaj komentarz</h2><form class="comment-form" action={url(`/blog/${post.slug}/`)} method="post"><div class="row g-3"><div class="col-md-6"><label for="comment-name">Imię</label><input class="form-control" id="comment-name" name="name" autocomplete="name" required /></div><div class="col-md-6"><label for="comment-email">Adres e-mail</label><input class="form-control" id="comment-email" name="email" type="email" autocomplete="email" required /></div><div class="col-12"><label for="comment-message">Komentarz</label><textarea class="form-control" id="comment-message" name="message" rows="5" required></textarea></div></div><div class="comment-form-actions"><button class="btn btn-primary" type="submit">Opublikuj komentarz</button><span id="commentStatus" role="status" aria-live="polite"></span></div></form></section>
+        </div></div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>

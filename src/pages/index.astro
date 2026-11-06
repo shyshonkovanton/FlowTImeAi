@@ -119,7 +119,7 @@ const bestsellers = [...products].sort((a, b) => b.popularity - a.popularity).sl
                   <div class="blog-meta"><span class="badge blog-category">{post.category}</span><time datetime={post.datetime}>{post.date}</time></div>
                   <h3 class="blog-card-title">{post.title}</h3>
                   <p class="blog-card-text">{post.description}</p>
-                  <a class="blog-read-link mt-auto" href={url("/blog/single/")}>Czytaj dalej <span aria-hidden="true">→</span></a>
+                  <a class="blog-read-link mt-auto" href={url(`/blog/${post.slug}/`)}>Czytaj dalej<span class="visually-hidden">: {post.title}</span> <span aria-hidden="true">→</span></a>
                 </div>
               </article>
             </div>

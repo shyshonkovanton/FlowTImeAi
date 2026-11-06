@@ -6,6 +6,7 @@ import Header from "../../components/Header.astro";
 import ProductCard from "../../components/ProductCard.astro";
 import Stars from "../../components/Stars.astro";
 import { products, type ProductItem } from "../../data/products";
+import { SITE_URL } from "../../lib/site";
 import { discountPercent, reviews } from "../../lib/shop";
 
 export function getStaticPaths() {
@@ -31,7 +32,7 @@ const productSchema = {
   description: product.shortDescription,
   sku: product.sku,
   category: product.category,
-  image: `https://shyshonkovanton.github.io/FlowTImeAi${product.image}`,
+  image: `${SITE_URL}${product.image}`,
   brand: { "@type": "Brand", name: "FlowTImeAi" },
   ...(product.reviews > 0 && {
     aggregateRating: { "@type": "AggregateRating", ratingValue: product.rating, reviewCount: product.reviews }
@@ -41,7 +42,7 @@ const productSchema = {
     price: product.priceValue,
     priceCurrency: product.currency,
     availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
-    url: `https://shyshonkovanton.github.io/FlowTImeAi/sklep/${product.slug}/`
+    url: `${SITE_URL}/sklep/${product.slug}/`
   }
 };
 

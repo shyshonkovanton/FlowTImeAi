@@ -1,5 +1,6 @@
 ---
 import { url } from "../lib/url";
+import { SITE_URL } from "../lib/site";
 import "../styles/bootstrap.scss";
 import "../../styles.css";
 
@@ -29,7 +30,7 @@ const {
   }
 } = Astro.props;
 
-const siteUrl = "https://shyshonkovanton.github.io/FlowTImeAi";
+const siteUrl = SITE_URL;
 const canonicalUrl = `${siteUrl}${canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`}`;
 const ogImageUrl = `${siteUrl}${ogImage.startsWith("/") ? ogImage : `/${ogImage}`}`;
 ---
@@ -64,6 +65,7 @@ const ogImageUrl = `${siteUrl}${ogImage.startsWith("/") ? ogImage : `/${ogImage}
       import "bootstrap/js/dist/tab";
       import "../../script.js";
       import "../scripts/shop.js";
+      import "../scripts/blog.js";
     </script>
   </body>
 </html>
