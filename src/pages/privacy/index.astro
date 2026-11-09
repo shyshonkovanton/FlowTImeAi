@@ -1,0 +1,93 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+
+const updated = "9 listopada 2026 / November 9, 2026";
+---
+
+<BaseLayout
+  title="Polityka prywatności / Privacy Policy — FlowTImeAi"
+  description="Jak bot FlowTImeAi w Telegramie przetwarza dane i korzysta z Google Calendar. How the FlowTImeAi Telegram bot handles data and uses Google Calendar."
+  canonicalPath="/privacy/"
+>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header />
+  <main id="main">
+    <section class="article-page" id="top">
+      <div class="container-xl">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Polityka prywatności</li>
+          </ol>
+        </nav>
+
+        <article class="col-lg-9">
+          <h1>Polityka prywatności / Privacy Policy</h1>
+          <p class="text-muted">Ostatnia aktualizacja / Last updated: {updated}</p>
+
+          <p lang="pl">
+            Ta polityka dotyczy bota FlowTImeAi w Telegramie (@FlowTimeAi_bot), osobistego asystenta
+            kalendarza. Bot tworzy wydarzenia w Twoim Kalendarzu Google wyłącznie po Twoim wyraźnym
+            potwierdzeniu, a każdą zmianę można cofnąć. Pełna treść poniżej (w języku angielskim).
+          </p>
+
+          <h2 lang="en">What the bot does</h2>
+          <p lang="en">
+            FlowTImeAi is a Telegram bot. You describe events in a message (for example “lecture
+            tomorrow at 10”), the bot turns them into draft events, shows you a preview, and only
+            after you tap <em>Add</em> writes them to your Google Calendar. Every event it adds can be
+            undone from the chat.
+          </p>
+
+          <h2 lang="en">Data we process</h2>
+          <ul lang="en">
+            <li><strong>Telegram:</strong> your Telegram user ID and the messages, documents and photos you send to the bot.</li>
+            <li><strong>Google account:</strong> your email address, used only to show which account is connected.</li>
+            <li><strong>Google Calendar:</strong> the list of your calendars and the events of the day when you ask for your agenda; the events you confirm are created in the calendar you choose.</li>
+            <li><strong>Drafts:</strong> draft events and a record of the events the bot created, so they can be undone.</li>
+          </ul>
+
+          <h2 lang="en">Google API scopes and how they are used</h2>
+          <ul lang="en">
+            <li><code>userinfo.email</code>: to show which Google account is connected.</li>
+            <li><code>calendar.readonly</code>: to list your calendars and show today’s agenda.</li>
+            <li><code>calendar.events</code>: to create an event after you confirm it, and to delete it when you tap <em>Undo</em>. The bot never changes your calendar without your confirmation.</li>
+          </ul>
+          <p lang="en">
+            FlowTImeAi’s use and transfer of information received from Google APIs adheres to the
+            <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener">Google API Services User Data Policy</a>,
+            including the Limited Use requirements. Data from Google APIs is not used for advertising,
+            is not sold, and is not used to train AI models.
+          </p>
+
+          <h2 lang="en">Processing by service providers</h2>
+          <ul lang="en">
+            <li><strong>Google Gemini API</strong> reads the text, documents and photos you send to the bot in order to extract event details. Calendar data from your Google account is not sent to Gemini.</li>
+            <li><strong>Google Cloud Run</strong> (EU, Belgium) runs the bot.</li>
+            <li><strong>Neon</strong> (PostgreSQL, EU, Frankfurt) stores your Telegram ID, drafts, calendar list and Google access tokens. Google tokens are encrypted before they are stored.</li>
+            <li><strong>Upstash</strong> (Redis, EU, Frankfurt) keeps short-lived state: the current conversation step (up to 1 day) and sign-in links (up to 10 minutes).</li>
+            <li><strong>Telegram</strong> delivers messages between you and the bot.</li>
+          </ul>
+
+          <h2 lang="en">Retention and deletion</h2>
+          <p lang="en">
+            Drafts that you do not confirm expire after 24 hours. You can disconnect Google at any time
+            in your <a href="https://myaccount.google.com/permissions" rel="noopener">Google Account permissions</a>;
+            the bot then loses access to your calendar. To have all your data deleted, send the bot a
+            message asking for it.
+          </p>
+
+          <h2 lang="en">Contact</h2>
+          <p lang="en">
+            FlowTImeAi is a personal project by Anton Shyshonkov. For any privacy question, write to
+            the bot in Telegram: <a href="https://t.me/FlowTimeAi_bot" rel="noopener">@FlowTimeAi_bot</a>.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
