@@ -1,0 +1,83 @@
+---
+import { url } from "../../lib/url";
+import { COMPANY } from "../../lib/site";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+
+const title = "Polityka Prywatności — FlowTImeAi";
+const description = "Zasady przetwarzania danych osobowych, prawa użytkownika (RODO) i polityka plików cookies serwisu FlowTImeAi.";
+const cookies = [
+  { name: "Cookies niezbędne (techniczne)", purpose: "Działanie serwisu: koszyk, dane zamówienia i konta demonstracyjnego zapisane lokalnie w przeglądarce (localStorage).", time: "Do usunięcia przez użytkownika", type: "Własne" },
+  { name: "Preferencje interfejsu", purpose: "Zapamiętanie wybranych filtrów i ustawień widoku.", time: "Do usunięcia przez użytkownika", type: "Własne" },
+  { name: "Analityczne", purpose: "Serwis nie używa narzędzi analitycznych.", time: "—", type: "Brak" },
+  { name: "Marketingowe", purpose: "Serwis nie używa plików cookies reklamowych ani śledzących.", time: "—", type: "Brak" }
+];
+---
+
+<BaseLayout {title} {description} canonicalPath="/polityka-prywatnosci/">
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header />
+  <main id="main">
+    <section class="article-page legal-page" id="top">
+      <div class="container-xl">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Polityka Prywatności</li>
+          </ol>
+        </nav>
+        <div class="row">
+          <article class="col-12 col-lg-8 mx-auto">
+            <header class="article-header">
+              <h1>Polityka Prywatności</h1>
+              <p class="legal-updated">Data ostatniej aktualizacji: <time datetime="2026-11-13">13 listopada 2026</time></p>
+            </header>
+
+            <h2>§ 1. Administrator Danych Osobowych</h2>
+            <p>Administratorem danych osobowych jest {COMPANY.name} ({COMPANY.form}) z siedzibą pod adresem {COMPANY.street}, {COMPANY.city}. Kontakt z administratorem: <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>, telefon <a href={COMPANY.phoneHref}>{COMPANY.phone}</a>.</p>
+            <p>Serwis ma charakter edukacyjny (projekt zaliczeniowy). Formularze mają wersję demonstracyjną i nie wysyłają danych na serwer.</p>
+
+            <h2>§ 2. Cele i Podstawy Przetwarzania Danych</h2>
+            <p>Dane, które mogłyby zostać przekazane przez formularze, byłyby przetwarzane wyłącznie w następujących celach:</p>
+            <ul>
+              <li>odpowiedź na wiadomość z formularza kontaktowego — art. 6 ust. 1 lit. b i f RODO;</li>
+              <li>realizacja zamówienia w sklepie — art. 6 ust. 1 lit. b RODO;</li>
+              <li>wysyłka newslettera — art. 6 ust. 1 lit. a RODO (zgoda, którą można w każdej chwili wycofać);</li>
+              <li>wypełnienie obowiązków prawnych, np. podatkowych — art. 6 ust. 1 lit. c RODO.</li>
+            </ul>
+            <p>Podczas korzystania ze strony zasoby zewnętrzne (Google Fonts, jsDelivr, OpenStreetMap) mogą otrzymać adres IP odwiedzającego.</p>
+
+            <h2>§ 3. Prawa Użytkownika (RODO)</h2>
+            <p>Każdej osobie, której dane dotyczą, przysługuje prawo do:</p>
+            <ul>
+              <li>dostępu do danych oraz otrzymania ich kopii,</li>
+              <li>sprostowania danych,</li>
+              <li>usunięcia danych („prawo do bycia zapomnianym”),</li>
+              <li>ograniczenia przetwarzania i wniesienia sprzeciwu,</li>
+              <li>przenoszenia danych,</li>
+              <li>wycofania zgody w dowolnym momencie, bez wpływu na zgodność z prawem wcześniejszego przetwarzania,</li>
+              <li>wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa).</li>
+            </ul>
+            <p>Aby skorzystać z tych praw, napisz na adres <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>.</p>
+
+            <h2>§ 4. Polityka Plików Cookies</h2>
+            <p>Serwis nie wykorzystuje cookies analitycznych ani marketingowych. Korzystamy wyłącznie z mechanizmów niezbędnych do działania sklepu, zapisanych lokalnie w przeglądarce. Można je w każdej chwili usunąć w ustawieniach przeglądarki.</p>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <caption class="visually-hidden">Zestawienie rodzajów plików cookies i pamięci lokalnej</caption>
+                <thead><tr><th scope="col">Rodzaj</th><th scope="col">Cel</th><th scope="col">Czas przechowywania</th><th scope="col">Pochodzenie</th></tr></thead>
+                <tbody>
+                  {cookies.map((c) => (
+                    <tr><th scope="row">{c.name}</th><td>{c.purpose}</td><td>{c.time}</td><td>{c.type}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

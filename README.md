@@ -42,3 +42,11 @@ npm run build    # budowanie statycznej wersji produkcyjnej do katalogu dist/
 npm run preview  # podgląd zbudowanej wersji
 ```
 
+
+## Ćwiczenia 6 — strony pomocnicze i stopka
+
+- `/kontakt/` — dane podmiotu, formularz (demo), mapa OpenStreetMap w `ratio ratio-4x3` i wskazówki dojazdu.
+- `/polityka-prywatnosci/` — dokument jednokolumnowy (`col-12 col-lg-8 mx-auto`) z tabelą cookies.
+- `404.astro` → `dist/404.html` — strona błędu z wyszukiwarką (indeks w `src/lib/search-index.ts`).
+- `src/components/Footer.astro` — globalna 4-kolumnowa stopka; style w bloku `/* STRONY POMOCNICZE I STOPKA */` w `styles.css`.
+- NIP, REGON, dojazd i linki społecznościowe to dane demonstracyjne (`src/lib/site.ts`).

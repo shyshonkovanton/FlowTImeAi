@@ -11,6 +11,7 @@ interface Props {
   ogType?: "website" | "article";
   ogImage?: string;
   structuredData?: Record<string, unknown>;
+  noindex?: boolean;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   canonicalPath = "/",
   ogType = "website",
   ogImage = "/assets/calendar-preview.svg",
+  noindex = false,
   structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -42,6 +44,7 @@ const ogImageUrl = `${siteUrl}${ogImage.startsWith("/") ? ogImage : `/${ogImage}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#f7f8fa" />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content={ogType} />
@@ -66,6 +69,7 @@ const ogImageUrl = `${siteUrl}${ogImage.startsWith("/") ? ogImage : `/${ogImage}
       import "../../script.js";
       import "../scripts/shop.js";
       import "../scripts/blog.js";
+      import "../scripts/forms.js";
     </script>
   </body>
 </html>

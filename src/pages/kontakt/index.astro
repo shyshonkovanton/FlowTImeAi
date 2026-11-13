@@ -1,0 +1,93 @@
+---
+import { url } from "../../lib/url";
+import { COMPANY } from "../../lib/site";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+
+const title = "Kontakt — FlowTImeAi";
+const description = `Skontaktuj się z FlowTImeAi: dane firmy, formularz kontaktowy i dojazd. Biuro czynne ${COMPANY.hours}.`;
+const mapSrc = "https://www.openstreetmap.org/export/embed.html?bbox=20.9900%2C52.2200%2C21.0400%2C52.2450&layer=mapnik&marker=52.2330%2C21.0150";
+---
+
+<BaseLayout {title} {description} canonicalPath="/kontakt/">
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+  <Header active="contact" />
+  <main id="main">
+    <section class="article-page shop-page" id="top">
+      <div class="container-xl">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={url("/")}>Strona główna</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Kontakt</li>
+          </ol>
+        </nav>
+        <h1 class="page-title">Skontaktuj się z nami</h1>
+        <p class="contact-lead">Odpowiadamy na pytania o aplikację, produkty i współpracę. Biuro i obsługa klienta pracują {COMPANY.hours}. Wiadomości z formularza przeczytamy najpóźniej następnego dnia roboczego.</p>
+
+        <div class="row gy-4 gx-0 gx-lg-5">
+          <div class="col-lg-7">
+            <section class="contact-card" aria-labelledby="registry-title">
+              <h2 id="registry-title">Dane podmiotu</h2>
+              <dl class="registry-list">
+                <dt>Nazwa</dt><dd>{COMPANY.name} ({COMPANY.form})</dd>
+                <dt>NIP</dt><dd>{COMPANY.nip}</dd>
+                <dt>REGON</dt><dd>{COMPANY.regon}</dd>
+                <dt>Adres</dt><dd>{COMPANY.street}, {COMPANY.city}</dd>
+                <dt>E-mail</dt><dd><a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></dd>
+                <dt>Telefon</dt><dd><a href={COMPANY.phoneHref}>{COMPANY.phone}</a></dd>
+              </dl>
+              <p class="demo-data-note">Numery NIP i REGON są wartościami demonstracyjnymi (projekt edukacyjny).</p>
+            </section>
+
+            <section class="contact-card" aria-labelledby="form-title">
+              <h2 id="form-title">Formularz kontaktowy</h2>
+              <form id="contactForm" action={url("/kontakt/")} method="post" data-demo-form data-success="Dziękujemy! Wiadomość została zapisana w wersji demonstracyjnej — nie została wysłana.">
+                <div class="row g-3">
+                  <div class="col-sm-6"><label for="cName">Imię i nazwisko</label><input class="form-control" id="cName" name="name" autocomplete="name" required /></div>
+                  <div class="col-sm-6"><label for="cEmail">Adres e-mail</label><input class="form-control" type="email" id="cEmail" name="email" autocomplete="email" required /></div>
+                  <div class="col-sm-6"><label for="cPhone">Telefon</label><input class="form-control" type="tel" id="cPhone" name="phone" autocomplete="tel" /></div>
+                  <div class="col-sm-6">
+                    <label for="cDept">Dział</label>
+                    <select class="form-select" id="cDept" name="department" required>
+                      <option value="" selected disabled>Wybierz dział…</option>
+                      <option value="obsluga-klienta">Obsługa klienta</option>
+                      <option value="wspolpraca">Współpraca</option>
+                      <option value="reklamacje">Reklamacje</option>
+                    </select>
+                  </div>
+                  <div class="col-12"><label for="cMessage">Wiadomość</label><textarea class="form-control" id="cMessage" name="message" rows="5" required></textarea></div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="cConsent" name="consent" required />
+                      <label class="form-check-label" for="cConsent">Wyrażam zgodę na przetwarzanie moich danych w celu odpowiedzi na wiadomość, zgodnie z <a href={url("/polityka-prywatnosci/")}>polityką prywatności</a>.</label>
+                    </div>
+                  </div>
+                  <div class="col-12"><button class="btn btn-primary" type="submit">Wyślij wiadomość <span aria-hidden="true">→</span></button></div>
+                </div>
+                <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+              </form>
+            </section>
+          </div>
+
+          <aside class="col-lg-5" aria-label="Lokalizacja i dojazd">
+            <div class="map-frame ratio ratio-4x3">
+              <iframe src={mapSrc} title="Mapa dojazdu — Warszawa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <p class="demo-data-note"><a href="https://www.openstreetmap.org/?mlat=52.2330&mlon=21.0150#map=15/52.2330/21.0150" target="_blank" rel="noopener noreferrer">Otwórz większą mapę</a> (OpenStreetMap). Pinezka ma charakter poglądowy.</p>
+            <section class="contact-card mt-4" aria-labelledby="directions-title">
+              <h2 id="directions-title">Jak dojechać</h2>
+              <ul class="directions-list">
+                <li><i class="bi bi-bus-front" aria-hidden="true"></i><span><strong>Komunikacja miejska:</strong> najbliższy przystanek autobusowy i tramwajowy znajduje się w odległości ok. 3 minut pieszo od wejścia.</span></li>
+                <li><i class="bi bi-train-front" aria-hidden="true"></i><span><strong>Metro i kolej:</strong> dojazd z centrum miasta zajmuje około 15 minut.</span></li>
+                <li><i class="bi bi-p-circle" aria-hidden="true"></i><span><strong>Parking:</strong> dla gości dostępny jest parking przed budynkiem, w tym miejsca dla osób z niepełnosprawnościami.</span></li>
+              </ul>
+              <p class="demo-data-note">Wskazówki dojazdu mają charakter poglądowy (projekt edukacyjny).</p>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
