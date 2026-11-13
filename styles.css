@@ -403,3 +403,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .search-results small{display:block;color:#6e6e73;font-size:12px;font-weight:500}
 .search-empty{color:#6e6e73;font-size:14px}
 .error-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+
+/* ASTRO — treść z plików Markdown */
+.article-body .article-quote p{margin:0}
+.article-body>:last-child{margin-bottom:0}

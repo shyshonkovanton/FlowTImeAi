@@ -3,30 +3,26 @@ import { url } from "../lib/url";
 import type { ProductItem } from "../data/products";
 import { discountPercent } from "../lib/shop";
 import Stars from "./Stars.astro";
+import Card from "./Card.astro";
 
 interface Props { product: ProductItem; }
 const { product } = Astro.props;
 const discount = discountPercent(product);
 ---
 
-<article class="card blog-card shop-card h-100">
-  <a class="shop-card-media" href={url(`/sklep/${product.slug}/`)} tabindex="-1" aria-hidden="true">
-    <img class="blog-card-image" src={url(product.image)} width="720" height="430" loading="lazy" decoding="async" alt="" />
-  </a>
-  <div class="card-body d-flex flex-column">
-    <div class="blog-meta">
-      <span class="badge blog-category">{product.category}</span>
-      {discount ? <span class="badge badge-promo">−{discount}%</span> : <span class="shop-badge-accent">{product.badge}</span>}
-    </div>
-    <h3 class="blog-card-title">{product.name}</h3>
-    <Stars rating={product.rating} reviews={product.reviews} />
-    <div class="shop-price-row mt-auto">
-      <div>
-        <strong class="shop-price">{product.price}</strong>
-        {product.oldPrice && <del class="shop-price-old"><span class="visually-hidden">Cena regularna: </span>{product.oldPrice}</del>}
-        {!product.inStock && <small class="d-block shop-unavailable">Niedostępny — wkrótce</small>}
-      </div>
-      <a class="btn btn-outline-primary shop-detail-btn" href={url(`/sklep/${product.slug}/`)}>Zobacz szczegóły<span class="visually-hidden">: {product.name}</span></a>
-    </div>
+<Card image={product.image} href={url(`/sklep/${product.slug}/`)} class="shop-card">
+  <div class="blog-meta">
+    <span class="badge blog-category">{product.category}</span>
+    {discount ? <span class="badge badge-promo">−{discount}%</span> : <span class="shop-badge-accent">{product.badge}</span>}
   </div>
-</article>
+  <h3 class="blog-card-title">{product.name}</h3>
+  <Stars rating={product.rating} reviews={product.reviews} />
+  <div class="shop-price-row mt-auto">
+    <div>
+      <strong class="shop-price">{product.price}</strong>
+      {product.oldPrice && <del class="shop-price-old"><span class="visually-hidden">Cena regularna: </span>{product.oldPrice}</del>}
+      {!product.inStock && <small class="d-block shop-unavailable">Niedostępny — wkrótce</small>}
+    </div>
+    <a class="btn btn-outline-primary shop-detail-btn" href={url(`/sklep/${product.slug}/`)}>Zobacz szczegóły<span class="visually-hidden">: {product.name}</span></a>
+  </div>
+</Card>

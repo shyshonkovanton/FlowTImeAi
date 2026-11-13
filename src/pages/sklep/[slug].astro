@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import ProductCard from "../../components/ProductCard.astro";
 import Stars from "../../components/Stars.astro";
+import { render } from "astro:content";
 import { products, type ProductItem } from "../../data/products";
 import { SITE_URL } from "../../lib/site";
 import { discountPercent, reviews } from "../../lib/shop";
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const { product } = Astro.props;
+const { Content } = await render(product.entry);
 const title = `${product.name} — Sklep FlowTImeAi`;
 const description = product.shortDescription;
 const discount = discountPercent(product);
@@ -137,11 +139,7 @@ const related = products
           </ul>
           <div class="tab-content product-tab-content">
             <div class="tab-pane fade show active" id="pane-desc" role="tabpanel" aria-labelledby="tab-desc" tabindex="0">
-              <p>{product.lead}</p>
-              <h2>Najważniejsze elementy pakietu</h2>
-              <ul class="article-list">
-                {product.features.map((feat) => <li>{feat}</li>)}
-              </ul>
+              <div class="article-body"><Content /></div>
             </div>
             <div class="tab-pane fade" id="pane-spec" role="tabpanel" aria-labelledby="tab-spec" tabindex="0">
               <div class="table-responsive">

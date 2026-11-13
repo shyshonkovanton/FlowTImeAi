@@ -1,0 +1,15 @@
+---
+import { url } from "../lib/url";
+import type { BlogPost } from "../data/posts";
+import Card from "./Card.astro";
+
+interface Props { post: BlogPost; }
+const { post } = Astro.props;
+---
+
+<Card image={post.image} imageAlt={post.imageAlt}>
+  <div class="blog-meta"><span class="badge blog-category">{post.category}</span><time datetime={post.datetime}>{post.date}</time></div>
+  <h3 class="blog-card-title">{post.title}</h3>
+  <p class="blog-card-text">{post.description}</p>
+  <a class="blog-read-link mt-auto" href={url(`/blog/${post.slug}/`)}>Czytaj dalej<span class="visually-hidden">: {post.title}</span> <span aria-hidden="true">→</span></a>
+</Card>

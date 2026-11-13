@@ -50,3 +50,17 @@ npm run preview  # podgląd zbudowanej wersji
 - `404.astro` → `dist/404.html` — strona błędu z wyszukiwarką (indeks w `src/lib/search-index.ts`).
 - `src/components/Footer.astro` — globalna 4-kolumnowa stopka; style w bloku `/* STRONY POMOCNICZE I STOPKA */` w `styles.css`.
 - NIP, REGON, dojazd i linki społecznościowe to dane demonstracyjne (`src/lib/site.ts`).
+
+## Astro — wymagania dodatkowe
+
+| Wymaganie | Realizacja |
+| --- | --- |
+| Działanie lokalne | `npm install` → `npm run dev` → http://localhost:4321/FlowTImeAi/ |
+| Automatyczna publikacja | `.github/workflows/deploy.yml` — każdy push na `main` buduje stronę i publikuje ją na GitHub Pages |
+| Komponenty | `src/components/Header.astro`, `Footer.astro`, `Card.astro` (+ `PostCard.astro`, `ProductCard.astro` oparte na `Card`) |
+| Blog w Markdown | `src/content/blog/*.md` — jeden plik = jeden wpis (`/blog/<nazwa-pliku>/`) |
+| Sklep w Markdown | `src/content/sklep/*.md` — jeden plik = jeden produkt (`/sklep/<nazwa-pliku>/`), statyczne strony bez backendu |
+
+Kolekcje treści są opisane w `src/content.config.ts` (schemat frontmattera). Wtyczka `src/lib/rehype-article.mjs` dopasowuje HTML z Markdownu do stylów serwisu (obrazki z podpisem, tabele `table-responsive`, prefiks adresu GitHub Pages).
+
+Nowy wpis na blogu: skopiuj dowolny plik z `src/content/blog/`, zmień nazwę i frontmatter, napisz treść w Markdownie, zrób commit — strona sama pojawi się na GitHub Pages.

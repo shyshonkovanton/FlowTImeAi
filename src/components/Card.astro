@@ -1,0 +1,24 @@
+---
+// Uniwersalna karta (Bootstrap .card): obrazek + treść przekazana przez <slot />.
+// Używana przez karty wpisów bloga (PostCard) i produktów (ProductCard).
+import { url } from "../lib/url";
+
+interface Props {
+  image: string;
+  imageAlt?: string;
+  /** Jeśli podany, obrazek jest odnośnikiem (pomijanym przez czytniki ekranu — link jest też w treści karty). */
+  href?: string;
+  class?: string;
+}
+const { image, imageAlt = "", href, class: extra } = Astro.props;
+const img = { src: url(image), width: 720, height: 430, loading: "lazy" as const, decoding: "async" as const };
+---
+
+<article class:list={["card blog-card h-100", extra]}>
+  {href
+    ? <a class="shop-card-media" href={href} tabindex="-1" aria-hidden="true"><img class="blog-card-image" {...img} alt="" /></a>
+    : <img class="blog-card-image" {...img} alt={imageAlt} />}
+  <div class="card-body d-flex flex-column">
+    <slot />
+  </div>
+</article>

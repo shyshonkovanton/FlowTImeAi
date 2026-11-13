@@ -4,6 +4,7 @@ import { SITE_URL } from "../../lib/site";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
+import { render } from "astro:content";
 import { AUTHOR, posts, type BlogPost } from "../../data/posts";
 
 export function getStaticPaths() {
@@ -15,6 +16,7 @@ export function getStaticPaths() {
 
 interface Props { post: BlogPost; prev?: BlogPost; next?: BlogPost; }
 const { post, prev, next } = Astro.props;
+const { Content } = await render(post.entry);
 
 const title = `${post.title} — Blog FlowTImeAi`;
 const pageUrl = `${SITE_URL}/blog/${post.slug}/`;
@@ -56,15 +58,7 @@ const comments = [
         <figure class="article-hero"><img src={url(post.image)} width="720" height="430" fetchpriority="high" decoding="async" alt={post.imageAlt} /><figcaption>{post.description}</figcaption></figure>
         <div class="row justify-content-center"><div class="col-xl-8">
           <p class="article-lead">{post.lead}</p>
-          <h2>{post.intro.heading}</h2>
-          <p>{post.intro.text}</p>
-          <blockquote class="blockquote article-quote">„{post.quote}”</blockquote>
-          <h2>{post.list.heading}</h2>
-          <ul class="article-list">{post.list.items.map((item) => <li><strong>{item.label}:</strong> {item.text}</li>)}</ul>
-          <figure class="article-figure"><img src={url(post.figure.image)} width="720" height="430" loading="lazy" decoding="async" alt={post.figure.alt} /><figcaption>{post.figure.caption}</figcaption></figure>
-          <h3>{post.detail.heading}</h3>
-          <p>{post.detail.text}</p>
-          <div class="table-responsive"><table class="table article-table"><caption>{post.table.caption}</caption><thead><tr>{post.table.head.map((h) => <th scope="col">{h}</th>)}</tr></thead><tbody>{post.table.rows.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}</tbody></table></div>
+          <div class="article-body"><Content /></div>
           <div class="article-tags" aria-label="Tagi artykułu"><span>Tagi:</span>{post.tags.map((tag) => <a href={`${url("/blog/")}?q=${encodeURIComponent(tag)}`}>{tag}</a>)}</div>
           <section class="author-card" aria-labelledby="author-title"><div class="author-avatar" aria-hidden="true">{AUTHOR.initials}</div><div><h2 id="author-title">{AUTHOR.name}</h2><p>{AUTHOR.bio}</p></div></section>
           <section class="article-share" aria-labelledby="share-title"><h2 id="share-title">Przekaż dalej</h2><div>{shareLinks.map((s) => <a class="btn btn-outline-primary" href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>)}<a class="btn btn-outline-primary" href={mailHref}>E-mail</a></div></section>

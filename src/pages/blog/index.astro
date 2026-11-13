@@ -3,6 +3,7 @@ import { url } from "../../lib/url";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
+import PostCard from "../../components/PostCard.astro";
 import { categories, posts } from "../../data/posts";
 
 const title = "Blog FlowTImeAi — planowanie, kalendarze i AI";
@@ -25,10 +26,7 @@ const description = "Praktyczne teksty o spokojnym planowaniu czasu, produktywno
             <div class="row g-4" id="blogGrid">
               {posts.map((post) => (
                 <div class="col-md-6 blog-item-col" data-category={post.category} data-search={`${post.title} ${post.description} ${post.category} ${post.tags.join(" ")}`.toLowerCase()} data-datetime={post.datetime}>
-                  <article class="card blog-card h-100">
-                    <img class="blog-card-image" src={url(post.image)} width="720" height="430" loading="lazy" decoding="async" alt={post.imageAlt} />
-                    <div class="card-body d-flex flex-column"><div class="blog-meta"><span class="badge blog-category">{post.category}</span><time datetime={post.datetime}>{post.date}</time></div><h3 class="blog-card-title">{post.title}</h3><p class="blog-card-text">{post.description}</p><a class="blog-read-link mt-auto" href={url(`/blog/${post.slug}/`)}>Czytaj dalej<span class="visually-hidden">: {post.title}</span> <span aria-hidden="true">→</span></a></div>
-                  </article>
+                  <PostCard post={post} />
                 </div>
               ))}
             </div>
