@@ -4,7 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 
-const updated = "9 listopada 2026 / November 9, 2026";
+const updated = "10 listopada 2026 / November 10, 2026";
 ---
 
 <BaseLayout
@@ -44,7 +44,7 @@ const updated = "9 listopada 2026 / November 9, 2026";
 
           <h2 lang="en">Data we process</h2>
           <ul lang="en">
-            <li><strong>Telegram:</strong> your Telegram user ID and the messages, documents and photos you send to the bot.</li>
+            <li><strong>Telegram:</strong> your Telegram user ID, the interface language of your Telegram app (to answer in your language), and the messages, documents and photos you send to the bot.</li>
             <li><strong>Google account:</strong> your email address, used only to show which account is connected.</li>
             <li><strong>Google Calendar:</strong> the list of your calendars and the events of the day when you ask for your agenda; the events you confirm are created in the calendar you choose.</li>
             <li><strong>Drafts:</strong> draft events and a record of the events the bot created, so they can be undone.</li>
@@ -55,6 +55,7 @@ const updated = "9 listopada 2026 / November 9, 2026";
             <li><code>userinfo.email</code>: to show which Google account is connected.</li>
             <li><code>calendar.readonly</code>: to list your calendars and show today’s agenda.</li>
             <li><code>calendar.events</code>: to create an event after you confirm it, and to delete it when you tap <em>Undo</em>. The bot never changes your calendar without your confirmation.</li>
+            <li><code>calendar.app.created</code>: to create a new calendar (and set its colour) when you ask for it in the bot’s Settings, and to delete such a calendar after you confirm. With this permission the bot can manage only the calendars it created; it cannot change or delete your other calendars.</li>
           </ul>
           <p lang="en">
             FlowTImeAi’s use and transfer of information received from Google APIs adheres to the
@@ -67,7 +68,7 @@ const updated = "9 listopada 2026 / November 9, 2026";
           <ul lang="en">
             <li><strong>Google Gemini API</strong> reads the text, documents and photos you send to the bot in order to extract event details. Calendar data from your Google account is not sent to Gemini.</li>
             <li><strong>Google Cloud Run</strong> (EU, Belgium) runs the bot.</li>
-            <li><strong>Neon</strong> (PostgreSQL, EU, Frankfurt) stores your Telegram ID, drafts, calendar list and Google access tokens. Google tokens are encrypted before they are stored.</li>
+            <li><strong>Neon</strong> (PostgreSQL, EU, Frankfurt) stores your Telegram ID, chosen language, drafts, calendar list (with which calendars are turned on) and Google access tokens. Google tokens are encrypted before they are stored.</li>
             <li><strong>Upstash</strong> (Redis, EU, Frankfurt) keeps short-lived state: the current conversation step (up to 1 day) and sign-in links (up to 10 minutes).</li>
             <li><strong>Telegram</strong> delivers messages between you and the bot.</li>
           </ul>
